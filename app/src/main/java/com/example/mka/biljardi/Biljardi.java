@@ -301,7 +301,7 @@ public class Biljardi extends Activity {
                 paint.setColor(Color.argb(255,  255, 255, 255));
 
                 // Piirrä keppi
-                canvas.drawRect(keppi.getRect(), paint);
+                canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
 
                 // Draw the paddle
                 //canvas.drawRect(paddle.getRect(), paint);

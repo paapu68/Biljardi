@@ -10,12 +10,17 @@ public class Keppi {
     private LautaData lautadata = new LautaData();
     private double jousivakio;
     private double poikkeama_x, poikkeama_y;
+    private float startX, startY, stopX, stopY;
 
     public Keppi(int screenX, int screenY){
         this.jousivakio = 10;
         this.poikkeama_x = 0.0;
         this.poikkeama_y = 0.0;
         rect = new RectF();
+        this.startX = 0;
+        this.startY = 0;
+        this.stopX = 0;
+        this.stopY = 0;
     }
 
     // Isketään lyöntipalloa
@@ -28,16 +33,40 @@ public class Keppi {
         return rect;
     }
 
+    // palautetaan tämänhetkinen kepin paikka, alkuX
+    public float getStartX(){
+        return startX;
+    }
+
+    // palautetaan tämänhetkinen kepin paikka, alkuY
+    public float getStartY(){
+        return startY;
+    }
+
+    // palautetaan tämänhetkinen kepin paikka, loppuX
+    public float getStopX() {
+        return stopX;
+    }
+
+    // palautetaan tämänhetkinen kepin paikka
+    public float getStopY(){
+        return stopY;
+    }
+
     //asetetaan alkupiste, joka on lyöntipallon paikka
     public void update_alku(float x, float y){
         rect.left = x;
         rect.top = y;
+	    this.startX = x;
+	    this.startY = y;
     }
 
     //asetetaan kepin loppupiste, joka raahataan sormella
     public void update_loppu(float x, float y){
         rect.right = x;
         rect.bottom = y;
+	    this.stopX = x;
+	    this.stopY = y;
     }
 
     public void reset(int x, int y){
@@ -45,6 +74,10 @@ public class Keppi {
         rect.top = y / 2;
         rect.right = x / 2;
         rect.bottom = y /2;
+	    this.startX = x / 2;
+	    this.startY = y / 2;
+	    this.stopX = x / 2;
+	    this.stopY = y / 2;
     }
 
 
