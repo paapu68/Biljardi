@@ -11,15 +11,15 @@ import java.util.ArrayList;
  * @see http://en.wikipedia.org/wiki/Billiard_table
  */
 public class LautaData {    
-    private final double dt;
-    final Double minLautaX, minLautaY;
-    final Double maxLautaX, maxLautaY; 
-    final Double pallonHalkaisija;
-    final Double pallonMassa;
-    final Double kepinPituus;
-    final Double reianHalkaisija;
-    final double scale;
-    final double alkuX, alkuY, valkoinenX, valkoinenY;
+    private final float dt;
+    final float minLautaX, minLautaY;
+    final float maxLautaX, maxLautaY;
+    final float pallonHalkaisija;
+    final float pallonMassa;
+    final float kepinPituus;
+    final float reianHalkaisija;
+    final float scale;
+    final float alkuX, alkuY, valkoinenX, valkoinenY;
    
     final int pixelOffsetX;
     final int pixelOffsetY;
@@ -28,64 +28,64 @@ public class LautaData {
     
     
     public LautaData(){
-        this.dt = 0.0001;  // aika-askel
-        this.minLautaX = 0.0;
-        this.minLautaY = 0.0;
-        this.maxLautaX = 1.4;
-        this.maxLautaY = 2.7;
-        this.pallonHalkaisija = 0.0517;
-        this.pallonMassa = 0.16;
-        this.kepinPituus = 6.0 * this.pallonHalkaisija;
-        this.reianHalkaisija = this.pallonHalkaisija * 1.6;
-        this.scale = 200.0;
+        this.dt = 0.0001f;  // aika-askel
+        this.minLautaX = 0.0f;
+        this.minLautaY = 0.0f;
+        this.maxLautaX = 1.4f;
+        this.maxLautaY = 2.7f;
+        this.pallonHalkaisija = 0.0517f;
+        this.pallonMassa = 0.16f;
+        this.kepinPituus = 6.0f * this.pallonHalkaisija;
+        this.reianHalkaisija = this.pallonHalkaisija * 1.6f;
+        this.scale = 200.0f;
         this.pixelOffsetX = 50;
         this.pixelOffsetY = 50; 
-        Double ph;
+        float ph;
         ph = this.pallonHalkaisija * this.scale;
-        this.pallonHalkaisijaPixel = ph.intValue();
-        Double rh;
+        this.pallonHalkaisijaPixel = Math.round(ph);
+        float rh;
         rh = this.reianHalkaisija * this.scale;
-        this.reianHalkaisijaPixel = rh.intValue();
-        Double pituusX = (this.maxLautaX-this.minLautaX)*this.scale;
-        this.pituusXpixel = pituusX.intValue();
-        Double pituusY = (this.maxLautaY-this.minLautaY)*this.scale;
-        this.pituusYpixel = pituusY.intValue();
-        this.alkuX = this.maxLautaX / 2.0;
-        this.alkuY = 1.0/4.0*this.maxLautaY;
+        this.reianHalkaisijaPixel = Math.round(rh);
+        float pituusX = (this.maxLautaX-this.minLautaX)*this.scale;
+        this.pituusXpixel = Math.round(pituusX);
+        float pituusY = (this.maxLautaY-this.minLautaY)*this.scale;
+        this.pituusYpixel = Math.round(pituusY);
+        this.alkuX = this.maxLautaX / 2.0f;
+        this.alkuY = 1.0f/4.0f*this.maxLautaY;
         this.valkoinenX = this.alkuX;
-        this.valkoinenY = 3.0/4.0*this.maxLautaY;
+        this.valkoinenY = 3.0f/4.0f*this.maxLautaY;
         
     }
 
-    public double getDT(){
+    public float getDT(){
         return this.dt;
     }
     
-    public double getMaxLautaX(){
+    public float getMaxLautaX(){
         return this.maxLautaX;
     }
     
-    public double getMaxLautaY(){
+    public float getMaxLautaY(){
         return this.maxLautaY;
     }
     
-    public double getMinLautaX(){
+    public float getMinLautaX(){
         return this.minLautaX;
     }
     
-    public double getMinLautaY(){
+    public float getMinLautaY(){
         return this.minLautaY;
     }
     
-    public double getPallonHalkaisija(){
+    public float getPallonHalkaisija(){
         return this.pallonHalkaisija;
     }
     
-    public double getPallonMassa(){
+    public float getPallonMassa(){
         return this.pallonMassa;
     }
     
-    public double getKepinPituus(){
+    public float getKepinPituus(){
         return this.kepinPituus;
     }
     
@@ -113,7 +113,7 @@ public class LautaData {
         return this.reianHalkaisijaPixel;
     }
     
-    public double getScale(){
+    public float getScale(){
         return this.scale;
     }
     
@@ -123,11 +123,12 @@ public class LautaData {
     * @param x reaalimaailman x koordinaatti
     * @return pelilaudan x pixeli koordinaatti
     */
-    public int lautaDouble2PixelX(double x){
-        Double pixelXdouble;
-        pixelXdouble = this.getpixelOffsetX()+
+    public int lautafloat2PixelX(float x){
+        float pixelXfloat;
+        pixelXfloat = this.getpixelOffsetX()+
                 this.getScale() * (x-this.getMinLautaX());     
-        return pixelXdouble.intValue();
+        //return pixelXfloat.intValue();
+        return 0;
     }
     
     /**
@@ -136,13 +137,14 @@ public class LautaData {
     * @param y reaalimaailman y koordinaatti
     * @return pelilaudan y pixeli koordinaatti
     */
-    public int lautaDouble2PixelY(double y){
+    public int lautafloat2PixelY(float y){
         // siirrytään reaalimaailman koordinaateista 
         // piirrettävän pelilaudan koordinaatteihin
-        Double pixelYdouble;
-        pixelYdouble = this.getpixelOffsetY()+
+        float pixelYfloat;
+        pixelYfloat = this.getpixelOffsetY()+
                 this.getScale() * (y-this.getMinLautaY());
-        return pixelYdouble.intValue();
+        //return pixelYfloat.intValue();
+        return 0;
     }    
     
 }

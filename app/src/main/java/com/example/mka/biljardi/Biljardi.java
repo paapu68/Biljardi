@@ -28,6 +28,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import java.io.IOException;
+import com.example.mka.biljardi.LautaData;
 
 public class Biljardi extends Activity {
 
@@ -35,6 +36,7 @@ public class Biljardi extends Activity {
     // Siinä on myös logiikka ja
     // vastineet ruudun koskettamisiin
     BiljardiView BiljardiView;
+    private LautaData lautadata = new LautaData();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +182,7 @@ public class Biljardi extends Activity {
 
             //Kepin alkupaikka lyöntipalloon
             keppi.reset(screenX, screenY);
+            pallot.reset();
 
             
             // Put the ball back to the start
@@ -237,9 +240,9 @@ public class Biljardi extends Activity {
         public void update() {
 
             // Move the paddle if required
-            //paddle.update(fps);
-
-            //ball.update(fps);
+            //paddle.update(fps)
+            //
+            pallot.update(fps);
 
             // Check for ball colliding with a brick
             //for(int i = 0; i < numBricks; i++){
@@ -312,7 +315,15 @@ public class Biljardi extends Activity {
                 // Draw the paddle
                 //canvas.drawRect(paddle.getRect(), paint);
 
-                // Draw the ball
+                // Piirrä pallot
+                for (Pallo pallo : pallot.getPallotArray()){
+                    canvas.drawCircle(pallo.getPalloX()*screenX, pallo.getPalloY()*screenY,
+                            screenX*lautadata.pallonHalkaisija, paint );
+                    //Log.i("pallox", Float.toString(pallo.getPalloX()));
+                    //Log.i("keppix",Float.toString(keppi.getStopX()));
+                }
+
+
                 //canvas.drawRect(ball.getRect(), paint);
 
                 // Change the brush color for drawing
