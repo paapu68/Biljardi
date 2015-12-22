@@ -92,6 +92,9 @@ public class Biljardi extends Activity {
         // Keppi
         Keppi keppi;
 
+        // Pallot
+        Pallot pallot;
+
         // Up to 200 bricks
         //Brick[] bricks = new Brick[200];
         //int numBricks = 0;
@@ -136,6 +139,8 @@ public class Biljardi extends Activity {
             // ball = new Ball(screenX, screenY);
 
             keppi = new Keppi(screenX, screenY);
+
+            pallot = new Pallot();
 
             // Load the sounds
 
