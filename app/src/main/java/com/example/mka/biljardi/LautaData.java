@@ -31,9 +31,9 @@ public class LautaData {
         this.dt = 0.0001f;  // aika-askel
         this.minLautaX = 0.0f;
         this.minLautaY = 0.0f;
-        this.maxLautaX = 1.4f;
-        this.maxLautaY = 2.7f;
-        this.pallonHalkaisija = 0.0517f;
+        this.maxLautaX = 1.0f;
+        this.maxLautaY = 1.0f;
+        this.pallonHalkaisija = 0.02f;
         this.pallonMassa = 0.16f;
         this.kepinPituus = 6.0f * this.pallonHalkaisija;
         this.reianHalkaisija = this.pallonHalkaisija * 1.6f;
