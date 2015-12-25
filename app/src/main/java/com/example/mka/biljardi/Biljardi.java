@@ -304,7 +304,7 @@ public class Biljardi extends Activity {
                 canvas = ourHolder.lockCanvas();
 
                 // Draw the background color
-                canvas.drawColor(Color.argb(255,  26, 128, 182));
+                canvas.drawColor(Color.argb(255,  0, 128, 0));
 
                 // Choose the brush color for drawing
                 paint.setColor(Color.argb(255,  255, 255, 255));
@@ -319,15 +319,20 @@ public class Biljardi extends Activity {
                 // Piirrä pallot
                 mymin=Math.min(screenX, screenY);
                 for (Pallo pallo : pallot.getPallotArray()){
-                    switch (pallo.getPalloVari()){
-                        case "valkoinen": paint.setColor(Color.argb(255, 255, 255, 255));
-                            break;
-                        case "musta": paint.setColor(Color.argb(255,0,0,0));
-                            break;
-                        case "punainen": paint.setColor(Color.argb(255,255,0,0));
-                            break;
-                        case "sininen": paint.setColor(Color.argb(255,0,0,255));
-                            break;
+                    //Log.i("Omapallovari", pallo.getPalloVari());
+                    if (pallo.getPalloVari().equals("valkoinen")) {
+                        paint.setColor(Color.argb(255, 255, 255, 255));
+                    }
+                    else if (pallo.getPalloVari().equals("musta")) {
+                        paint.setColor(Color.argb(255, 0, 0, 0));
+                    }
+                    else if (pallo.getPalloVari().equals("punainen")) {
+                        paint.setColor(Color.argb(255, 255, 0, 0));
+                    }
+                    else if (pallo.getPalloVari().equals("sininen")) {
+                        paint.setColor(Color.argb(255, 0, 0, 255));
+                    }
+                    else { paint.setColor(Color.argb(255,255,255,255));
                     }
                     //paint.setColor(pallo.getColor());
                     canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
