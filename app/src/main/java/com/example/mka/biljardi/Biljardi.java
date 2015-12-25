@@ -320,20 +320,21 @@ public class Biljardi extends Activity {
                 mymin=Math.min(screenX, screenY);
                 for (Pallo pallo : pallot.getPallotArray()){
                     //Log.i("Omapallovari", pallo.getPalloVari());
-                    if (pallo.getPalloVari().equals('v')) {
+                    if (pallo.getPalloVari() == 'v') {
                         paint.setColor(Color.argb(255, 255, 255, 255));
                     }
-                    else if (pallo.getPalloVari().equals('m')) {
+                    else if (pallo.getPalloVari() == 'm') {
                         paint.setColor(Color.argb(255, 0, 0, 0));
                     }
-                    else if (pallo.getPalloVari().equals('p')) {
+                    else if (pallo.getPalloVari() == 'p') {
+                        Log.i("Omapallovari", " punainen");
                         paint.setColor(Color.argb(255, 255, 0, 0));
                     }
-                    else if (pallo.getPalloVari().equals('s')) {
+                    else if (pallo.getPalloVari() == 's') {
                         paint.setColor(Color.argb(255, 0, 0, 255));
                     }
-                    else { paint.setColor(Color.argb(255,255,255,255));
-                    }
+                    //else { paint.setColor(Color.argb(255,255,255,255));
+                    //}
                     //paint.setColor(pallo.getColor());
                     canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
                             mymin * lautadata.pallonHalkaisija, paint);
