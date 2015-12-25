@@ -6,6 +6,8 @@
 
 package com.example.mka.biljardi;
 
+import android.graphics.Color;
+
 /**
  *  Sisältää pallon 2d paikan, 2d nopeuden, 2d kiihtyvyyden
  *  massan varauksen ja värin
@@ -17,13 +19,14 @@ package com.example.mka.biljardi;
 public class Pallo {
     private float x;
     private float y;
-    private double vx;
-    private double vy;
-    private double ax;
-    private double ay;
-    private double fx, fy;
-    private double varaus;
+    private float vx;
+    private float vy;
+    private float ax;
+    private float ay;
+    private float fx, fy;
+    private float varaus;
     private String vari;
+    private int color;
 
    /**
     *  @param x pallon x koordinaatti
@@ -39,14 +42,15 @@ public class Pallo {
     public Pallo(float x, float y) {
         this.x = x;
         this.y = y;
-        this.vx = 0.0;
-        this.vy = 0.0;
-        this.ax = 0.0;
-        this.ay = 0.0;
-        this.fx = 0.0;
-        this.fy = 0.0;
-        this.varaus = 0.0;
+        this.vx = 0.0f;
+        this.vy = 0.0f;
+        this.ax = 0.0f;
+        this.ay = 0.0f;
+        this.fx = 0.0f;
+        this.fy = 0.0f;
+        this.varaus = 0.0f;
         this.vari = "";
+        this.color = Color.WHITE;
     }
 
     public float getPalloX(){
@@ -57,27 +61,27 @@ public class Pallo {
         return this.y;
     }
     
-    public double getPalloVX(){
+    public float getPalloVX(){
         return this.vx;
     }
     
-    public double getPalloVY(){
+    public float getPalloVY(){
         return this.vy;
     }
     
-    public double getPalloAX(){
+    public float getPalloAX(){
         return this.ax;
     }
     
-    public double getPalloAY(){
+    public float getPalloAY(){
         return this.ay;
     }
     
-    public double getPalloFX(){
+    public float getPalloFX(){
         return this.fx;
     }
     
-    public double getPalloFY(){
+    public float getPalloFY(){
         return this.fy;
     }    
     
@@ -89,53 +93,59 @@ public class Pallo {
             this.y= y;
     }
     
-    public void setPalloVX(double vx){
+    public void setPalloVX(float vx){
         this.vx = vx;
     }
     
-    public void setPalloVY(double vy){
+    public void setPalloVY(float vy){
         this.vy = vy;
     }
     
-    public void setPalloAX(double ax){
+    public void setPalloAX(float ax){
         this.ax = ax;
     }
     
-    public void setPalloAY(double ay){
+    public void setPalloAY(float ay){
         this.ay = ay;
     }
     
     public void nollaaPalloFX(){
-        this.fx = 0.0;
+        this.fx = 0.0f;
     }
     
     public void nollaaPalloFY(){
-        this.fy = 0;
+        this.fy = 0.0f;
     }    
     
     /**
     * lisätään pallon voiman x koordinaattia 
     */    
-    public void lisaaPalloFX(double fx){
+    public void lisaaPalloFX(float fx){
         this.fx += fx;
     }
     
     /**
     * lisätään pallon voiman y koordinaattia 
     */
-    public void lisaaPalloFY(double fy){
+    public void lisaaPalloFY(float fy){
         this.fy += fy;
     }    
     
     public String getPalloVari(){
         return this.vari;
     }
+
+    public void setColor(int color){
+        this.color = color;
+    }
+
+    public int getColor() {return this.color;}
     
     public void setPalloVari(String vari){
         this.vari = vari;
     }
     
-    public double getPalloVaraus(){
+    public float getPalloVaraus(){
         return this.varaus;
     }
     
@@ -143,7 +153,7 @@ public class Pallo {
     * asetetaan pallon coulombin varaus (mikrocoulombeissa)
     */
     public void setPalloVaraus(int varaus){        
-        this.varaus = varaus * 0.000001;
+        this.varaus = varaus * 0.000001f;
     }    
     
     @Override
