@@ -297,7 +297,7 @@ public class Biljardi extends Activity {
 
         // Piirrä päivitetty näkymä
         public void draw() {
-
+            float mymin;
             // Make sure our drawing surface is valid or we crash
             if (ourHolder.getSurface().isValid()) {
                 // Lock the canvas ready to draw
@@ -317,11 +317,12 @@ public class Biljardi extends Activity {
                 //canvas.drawRect(paddle.getRect(), paint);
 
                 // Piirrä pallot
+                mymin=Math.min(screenX, screenY);
                 for (Pallo pallo : pallot.getPallotArray()){
                     switch (pallo.getPalloVari()){
                         case "valkoinen": paint.setColor(Color.argb(255, 255, 255, 255));
                             break;
-                        case "musta": paint.setColor(Color.argb(0,255,255,255));
+                        case "musta": paint.setColor(Color.argb(255,0,0,0));
                             break;
                         case "punainen": paint.setColor(Color.argb(255,255,0,0));
                             break;
@@ -330,7 +331,7 @@ public class Biljardi extends Activity {
                     }
                     //paint.setColor(pallo.getColor());
                     canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
-                            screenX * lautadata.pallonHalkaisija, paint);
+                            mymin * lautadata.pallonHalkaisija, paint);
                     //Log.i("pallovari", String.valueOf(pallo.getColor()));
                     //Log.i("Omapallovari", pallo.getPalloVari());
                     //Log.i("keppix",Float.toString(keppi.getStopX()));

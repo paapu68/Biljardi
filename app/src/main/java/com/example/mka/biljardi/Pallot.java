@@ -24,8 +24,8 @@ public class Pallot {
         this.asetaPallojenAlkupaikat();
         this.asetaPallojenVarit();
         this.asetaPallojenPerusVaraus(1);
-        this.asetaPallojenVaraukset();
-        this.vaihdaPallojenJarjestys();
+        //this.asetaPallojenVaraukset();
+        //this.vaihdaPallojenJarjestys();
     }
 
     // pallot resetoidaan alkutilaan
@@ -33,8 +33,8 @@ public class Pallot {
         this.asetaPallojenAlkupaikat();
         this.asetaPallojenVarit();
         this.asetaPallojenPerusVaraus(1);
-        this.asetaPallojenVaraukset();
-        this.vaihdaPallojenJarjestys();
+        //this.asetaPallojenVaraukset();
+        //this.vaihdaPallojenJarjestys();
 
     }
 
@@ -194,7 +194,7 @@ public class Pallot {
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // tässä skipataan musta
-        x = lautadata.alkuX+2.0f*lautadata.pallonHalkaisija;
+        x = x+2.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 4 palloa 4. riviin
