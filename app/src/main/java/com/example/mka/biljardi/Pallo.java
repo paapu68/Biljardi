@@ -7,6 +7,7 @@
 package com.example.mka.biljardi;
 
 import android.graphics.Color;
+import android.text.style.CharacterStyle;
 
 /**
  *  Sisältää pallon 2d paikan, 2d nopeuden, 2d kiihtyvyyden
@@ -25,7 +26,7 @@ public class Pallo {
     private float ay;
     private float fx, fy;
     private float varaus;
-    private String vari;
+    private Character vari;
     private int color;
 
    /**
@@ -49,7 +50,7 @@ public class Pallo {
         this.fx = 0.0f;
         this.fy = 0.0f;
         this.varaus = 0.0f;
-        this.vari = "";
+        this.vari = ' ';
         this.color = Color.WHITE;
     }
 
@@ -131,7 +132,7 @@ public class Pallo {
         this.fy += fy;
     }    
     
-    public String getPalloVari(){
+    public Character getPalloVari(){
         return this.vari;
     }
 
@@ -141,7 +142,7 @@ public class Pallo {
 
     public int getColor() {return this.color;}
     
-    public void setPalloVari(String vari){
+    public void setPalloVari(Character vari){
         this.vari = vari;
     }
     

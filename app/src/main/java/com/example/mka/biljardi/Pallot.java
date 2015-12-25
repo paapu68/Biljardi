@@ -262,16 +262,16 @@ public class Pallot {
 
     public void asetaPallojenVarit(){
         // valkoinen pallo ensin
-        this.pallotArr.get(0).setPalloVari("valkoinen");
+        this.pallotArr.get(0).setPalloVari('v');
         // musta pallo toiseksi
-        this.pallotArr.get(1).setPalloVari("musta");
+        this.pallotArr.get(1).setPalloVari('m');
         // negatiiviset (punaiset pallot, 2-8)
         for (int i = 2; i <= 8 ; i = i + 1) {
-            this.pallotArr.get(i).setPalloVari("punainen");
+            this.pallotArr.get(i).setPalloVari('p');
         }
         // positiiviset (siniset pallot, 9-15)
         for (int i = 9; i <= 15 ; i = i + 1) {
-            this.pallotArr.get(i).setPalloVari("sininen");
+            this.pallotArr.get(i).setPalloVari('s');
         }
     }
 
