@@ -304,13 +304,14 @@ public class Biljardi extends Activity {
                 canvas = ourHolder.lockCanvas();
 
                 // Draw the background color
-                canvas.drawColor(Color.argb(255,  0, 128, 0));
+                canvas.drawColor(Color.argb(255, 0, 128, 0));
 
                 // Choose the brush color for drawing
-                paint.setColor(Color.argb(255,  255, 255, 255));
+                paint.setColor(Color.argb(255, 255, 255, 255));
 
                 // Piirrä keppi
                 paint.setStrokeWidth(4.0f);
+                keppi.update_alku(screenX*pallot.getLyontiPallo().getPalloX(), screenY*pallot.getLyontiPallo().getPalloY());
                 canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
 
                 // Draw the paddle
@@ -322,22 +323,28 @@ public class Biljardi extends Activity {
                     //Log.i("Omapallovari", pallo.getPalloVari());
                     if (pallo.getPalloVari() == 'v') {
                         paint.setColor(Color.argb(255, 255, 255, 255));
-                    }
-                    else if (pallo.getPalloVari() == 'm') {
+                        canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
+                                mymin * lautadata.pallonHalkaisija, paint);
+                    } else if (pallo.getPalloVari() == 'm') {
                         paint.setColor(Color.argb(255, 0, 0, 0));
-                    }
-                    else if (pallo.getPalloVari() == 'p') {
+                        canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
+                                mymin * lautadata.pallonHalkaisija, paint);
+                    } else if (pallo.getPalloVari() == 'p') {
                         Log.i("Omapallovari", " punainen");
                         paint.setColor(Color.argb(255, 255, 0, 0));
+                        canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
+                                mymin * lautadata.pallonHalkaisija, paint);
                     }
                     else if (pallo.getPalloVari() == 's') {
                         paint.setColor(Color.argb(255, 0, 0, 255));
+                        canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
+                                mymin * lautadata.pallonHalkaisija, paint);
                     }
                     //else { paint.setColor(Color.argb(255,255,255,255));
                     //}
                     //paint.setColor(pallo.getColor());
-                    canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
-                            mymin * lautadata.pallonHalkaisija, paint);
+
+
                     //Log.i("pallovari", String.valueOf(pallo.getColor()));
                     //Log.i("Omapallovari", pallo.getPalloVari());
                     //Log.i("keppix",Float.toString(keppi.getStopX()));
@@ -416,6 +423,11 @@ public class Biljardi extends Activity {
 
 
                     break;
+
+
+                case MotionEvent.ACTION_MOVE:
+                    paused = false;
+                    keppi.update_loppu(motionEvent.getX(),motionEvent.getY());
 
                 // Player has removed finger from screen
                 case MotionEvent.ACTION_UP:
