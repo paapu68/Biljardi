@@ -24,8 +24,8 @@ public class Pallot {
         this.asetaPallojenAlkupaikat();
         this.asetaPallojenVarit();
         this.asetaPallojenPerusVaraus(1);
-        //this.asetaPallojenVaraukset();
-        //this.vaihdaPallojenJarjestys();
+        this.asetaPallojenVaraukset();
+        this.vaihdaPallojenVarit();
     }
 
     // pallot resetoidaan alkutilaan
@@ -33,8 +33,8 @@ public class Pallot {
         this.asetaPallojenAlkupaikat();
         this.asetaPallojenVarit();
         this.asetaPallojenPerusVaraus(1);
-        //this.asetaPallojenVaraukset();
-        //this.vaihdaPallojenJarjestys();
+        this.asetaPallojenVaraukset();
+        this.vaihdaPallojenVarit();
 
     }
 
@@ -182,75 +182,70 @@ public class Pallot {
 
         // 2 palloa 2. rivissä
         y = lautadata.alkuY-lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-0.5f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-1f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x=x+1.0f*lautadata.pallonHalkaisija;
+        x=x+2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 2palloa 3. riviin (musta on jo laitettua)
         y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-1.0f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-2.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // tässä skipataan musta
-        x = x+2.0f*lautadata.pallonHalkaisija;
+        x = x+4.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 4 palloa 4. riviin
         y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-1.5f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-3.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 5palloa 5. riviin
         y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-2.0f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-4.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
     }
 
     /**
-     * vaihdetaan pallojen paikkoja
+     * vaihdetaan pallojen varit (paitsi ei musta ja valkoinen)
      */
-    public void vaihdaPallojenJarjestys(){
-        float xi, yi, xk, yk;
+    public void vaihdaPallojenVarit(){
+        char iv,kv;
         Pallo pallo;
         int min = 2;
-        int max = this.pallotArr.size()-1;
+        int max = 15;
         int k;
         for (int j = 1; j < 100; j = j + 1){
-            for (int i = min; i <= max; i = i + 1) {
+            for (int i = 2; i <= 15 ; i = i + 1) {
                 k = min + (int)(Math.random() * ((max - min) + 1));
-                xk = this.pallotArr.get(k).getPalloX();
-                yk = this.pallotArr.get(k).getPalloY();
-                xi = this.pallotArr.get(i).getPalloX();
-                yi = this.pallotArr.get(i).getPalloY();
-                this.pallotArr.get(i).setPalloX(xk);
-                this.pallotArr.get(i).setPalloY(yk);
-                this.pallotArr.get(k).setPalloX(xi);
-                this.pallotArr.get(k).setPalloY(yi);
-
+                kv = this.pallotArr.get(k).getPalloVari();
+                iv = this.pallotArr.get(i).getPalloVari();
+                this.pallotArr.get(i).setPalloVari(kv);
+                this.pallotArr.get(k).setPalloVari(iv);
             }
         }
     }

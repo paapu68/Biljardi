@@ -330,7 +330,7 @@ public class Biljardi extends Activity {
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
                                 mymin * lautadata.pallonHalkaisija, paint);
                     } else if (pallo.getPalloVari() == 'p') {
-                        Log.i("Omapallovari", " punainen");
+                        //Log.i("Omapallovari", " punainen");
                         paint.setColor(Color.argb(255, 255, 0, 0));
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
                                 mymin * lautadata.pallonHalkaisija, paint);
