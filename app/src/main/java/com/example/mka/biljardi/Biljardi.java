@@ -319,20 +319,20 @@ public class Biljardi extends Activity {
                 // Piirrä pallot
                 for (Pallo pallo : pallot.getPallotArray()){
                     switch (pallo.getPalloVari()){
-                        case "valkoinen": paint.setARGB(100,255,255,255);
+                        case "valkoinen": paint.setColor(Color.argb(255, 255, 255, 255));
                             break;
-                        case "musta": paint.setARGB(100,0,0,0);
+                        case "musta": paint.setColor(Color.argb(0,255,255,255));
                             break;
-                        case "punainen": paint.setARGB(100,255,0,0);
+                        case "punainen": paint.setColor(Color.argb(255,255,0,0));
                             break;
-                        case "sininen": paint.setARGB(100,0,0,255);
+                        case "sininen": paint.setColor(Color.argb(255,0,0,255));
                             break;
                     }
                     //paint.setColor(pallo.getColor());
                     canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
                             screenX * lautadata.pallonHalkaisija, paint);
-                    Log.i("pallovari", String.valueOf(pallo.getColor()));
-                    Log.i("Omapallovari", pallo.getPalloVari());
+                    //Log.i("pallovari", String.valueOf(pallo.getColor()));
+                    //Log.i("Omapallovari", pallo.getPalloVari());
                     //Log.i("keppix",Float.toString(keppi.getStopX()));
                 }
 

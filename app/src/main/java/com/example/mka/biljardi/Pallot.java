@@ -190,16 +190,16 @@ public class Pallot {
         this.pallotArr.add(pallo);
         // 2palloa 3. riviin (musta on jo laitettua)
         y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuY-1.5f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-1.5f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // tässä skipataan musta
-        x = lautadata.alkuY+2.0f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX+2.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 4 palloa 4. riviin
         y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuY-2.0f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-2.0f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         x = x + lautadata.pallonHalkaisija;
@@ -213,7 +213,7 @@ public class Pallot {
         this.pallotArr.add(pallo);
         // 5palloa 5. riviin
         y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuY-2.5f*lautadata.pallonHalkaisija;
+        x = lautadata.alkuX-2.5f*lautadata.pallonHalkaisija;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         x = x + lautadata.pallonHalkaisija;
