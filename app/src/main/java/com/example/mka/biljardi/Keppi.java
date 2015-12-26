@@ -9,17 +9,16 @@ import android.util.Log;
 public class Keppi {
     RectF rect;
     private LautaData lautadata = new LautaData();
-    private double jousivakio;
-    private double poikkeama_x, poikkeama_y;
+    private float jousivakio;
+    private float poikkeama_x, poikkeama_y;
     private float startX, startY, stopX, stopY;
 
     public Keppi(int screenX, int screenY){
-        this.jousivakio = 10;
-        this.poikkeama_x = 0.0;
-        this.poikkeama_y = 0.0;
-        rect = new RectF();
-        this.startX = 0;
-        this.startY = 0;
+        this.jousivakio = 10f;
+        this.poikkeama_x = 0.0f;
+        this.poikkeama_y = 0.0f;
+        this.startX = 0f;
+        this.startY = 0f;
         this.stopX = lautadata.alkuKeppiX;
         this.stopY = lautadata.alkuKeppiY;
     }
@@ -87,11 +86,11 @@ public class Keppi {
     //    pallo.setPalloVY(this.jousivakio * this.poikkeama_y);
     //}
 
-    public void set_poikkeama_x(double x1, double x2){
+    public void set_poikkeama_x(float x1, float x2){
         this.poikkeama_x = x2-x1;
     }
 
-    public void set_poikkeama_y(double y1, double y2){
+    public void set_poikkeama_y(float y1, float y2){
         this.poikkeama_y = y2-y1;
     }
 
