@@ -42,12 +42,6 @@ public class Pallot {
         return this.pallotArr;
     }
 
-    public void update(long fps){
-        for (Pallo pallo : this.pallotArr) {
-            pallo.setPalloVX(0.0f);
-            pallo.setPalloVY(0.0f);
-        }
-    }
 
 
     /** Annetaan pallojonon ensimmäinen pallo joka on valkoinen lyöntipallo

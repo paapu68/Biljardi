@@ -89,8 +89,12 @@ public class Biljardi extends Activity {
         // The players paddle
         //Paddle paddle;
 
-        // A ball
-        //Ball ball;
+        // tämä luokka tarjoaa liikkumiseen ja voimaan liittyvät rutiinit
+        Liike liike;
+
+        // Seinat
+        // Seiniin törmäkset
+        Seina seina;
 
         // Keppi
         Keppi keppi;
@@ -140,6 +144,10 @@ public class Biljardi extends Activity {
 
             // Create a ball
             // ball = new Ball(screenX, screenY);
+
+            liike = new Liike();
+
+            seina = new Seina();
 
             keppi = new Keppi(screenX, screenY);
 
@@ -240,10 +248,16 @@ public class Biljardi extends Activity {
         // Liike, törmäykset jne
         public void update() {
 
+
+            //seinasta kimpoaminen
+            seina.VaihdaLiikemaara(pallot);
+
             // Move the paddle if required
             //paddle.update(fps)
             //
-            pallot.update(fps);
+            // siirretään palloja ja päivitetään voimat ja nopeudet ja kiihtyvyydet
+            liike.update(fps, pallot);
+
 
             // Check for ball colliding with a brick
             //for(int i = 0; i < numBricks; i++){
@@ -420,8 +434,6 @@ public class Biljardi extends Activity {
 
                     paused = false;
                     keppi.update_loppu(motionEvent.getX(),motionEvent.getY());
-
-
                     break;
 
 
@@ -431,8 +443,8 @@ public class Biljardi extends Activity {
 
                 // Player has removed finger from screen
                 case MotionEvent.ACTION_UP:
-
-                    keppi.iske();
+                    paused = false;
+                    keppi.iske(pallot.getLyontiPallo());
                     break;
             }
             return true;

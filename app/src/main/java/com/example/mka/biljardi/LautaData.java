@@ -20,6 +20,7 @@ public class LautaData {
     final float reianHalkaisija;
     final float scale;
     final float alkuX, alkuY, valkoinenX, valkoinenY;
+    final float alkuKeppiX, alkuKeppiY;
    
     final int pixelOffsetX;
     final int pixelOffsetY;
@@ -54,7 +55,9 @@ public class LautaData {
         this.alkuY = 1.0f/4.0f*this.maxLautaY;
         this.valkoinenX = this.alkuX;
         this.valkoinenY = 3.0f/4.0f*this.maxLautaY;
-        
+        this.alkuKeppiX = this.alkuX;
+        this.alkuKeppiY = (this.valkoinenY+this.maxLautaY)/2.0f;
+
     }
 
     public float getDT(){
