@@ -17,17 +17,17 @@ public class Keppi {
         this.jousivakio = 10f;
         this.poikkeama_x = 0.0f;
         this.poikkeama_y = 0.0f;
-        this.startX = 0f;
-        this.startY = 0f;
-        this.stopX = lautadata.alkuKeppiX;
-        this.stopY = lautadata.alkuKeppiY;
+        this.startX = lautadata.valkoinenX * screenX;
+        this.startY = lautadata.valkoinenY * screenY;
+        this.stopX = lautadata.alkuKeppiX * screenX;
+        this.stopY = lautadata.alkuKeppiY *screenY;
     }
 
     // Isketään lyöntipalloa
     public void iske(Pallo pallo)
     {float vx, vy;
-        vx = (this.getStopX()-this.getStartX())*1f-3;
-        vy = (this.getStopY()-this.getStartY())*1f-3;
+        vx = -(this.getStopX()-this.getStartX())*0.001f;
+        vy = -(this.getStopY()-this.getStartY())*0.001f;
         pallo.setPalloVX(vx);
         pallo.setPalloVY(vy);
         Log.i("ISKU", Float.toString(vx));
@@ -71,11 +71,11 @@ public class Keppi {
         Log.i("SIIRTO", " NYT!");
     }
 
-    public void reset(int x, int y){
-	    this.startX = x / 2;
-	    this.startY = y / 2;
-	    this.stopX = x / 2;
-	    this.stopY = y / 2;
+    public void reset(int screenX, int screenY){
+        this.startX = lautadata.valkoinenX * screenX;
+        this.startY = lautadata.valkoinenY * screenY;
+        this.stopX = lautadata.alkuKeppiX * screenX;
+        this.stopY = lautadata.alkuKeppiY * screenY;
     }
 
 

@@ -72,6 +72,9 @@ public class Biljardi extends Activity {
         // Peli on pausella aluksi
         boolean paused = true;
 
+        // Liikkuuko pallot
+        boolean pallotLiikkuu = false;
+
         // Canvas Paint objektit
         Canvas canvas;
         Paint paint;
@@ -183,7 +186,7 @@ public class Biljardi extends Activity {
                 Log.e("error", "failed to load sound files");
             }
 
-            laitaAlkuasemaJaRestart();
+            //laitaAlkuasemaJaRestart();
 
         }
 
@@ -320,14 +323,16 @@ public class Biljardi extends Activity {
                 // Draw the background color
                 canvas.drawColor(Color.argb(255, 0, 128, 0));
 
-                // Choose the brush color for drawing
-                paint.setColor(Color.argb(255, 255, 255, 255));
+                // Jos pallot ei liiku niin keppi piirretään
+                if (!pallotLiikkuu) {
+                    //valkoinen keppi
+                    paint.setColor(Color.argb(255, 255, 255, 255));
 
-                // Piirrä keppi
-                paint.setStrokeWidth(4.0f);
-                keppi.update_alku(screenX*pallot.getLyontiPallo().getPalloX(), screenY*pallot.getLyontiPallo().getPalloY());
-                canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
-
+                    // Piirrä keppi
+                    paint.setStrokeWidth(4.0f);
+                    keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+                    canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
+                }
                 // Draw the paddle
                 //canvas.drawRect(paddle.getRect(), paint);
 
@@ -432,19 +437,20 @@ public class Biljardi extends Activity {
                 // Player has touched the screen
                 case MotionEvent.ACTION_DOWN:
 
-                    paused = false;
+                    //paused = false;
                     keppi.update_loppu(motionEvent.getX(),motionEvent.getY());
                     break;
 
 
                 case MotionEvent.ACTION_MOVE:
-                    paused = false;
+                    //paused = false;
                     keppi.update_loppu(motionEvent.getX(),motionEvent.getY());
 
                 // Player has removed finger from screen
                 case MotionEvent.ACTION_UP:
                     paused = false;
                     keppi.iske(pallot.getLyontiPallo());
+                    pallotLiikkuu = true;
                     break;
             }
             return true;

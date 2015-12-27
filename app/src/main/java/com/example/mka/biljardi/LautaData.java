@@ -56,7 +56,7 @@ public class LautaData {
         this.valkoinenX = this.alkuX;
         this.valkoinenY = 3.0f/4.0f*this.maxLautaY;
         this.alkuKeppiX = this.alkuX;
-        this.alkuKeppiY = (this.valkoinenY+this.maxLautaY)/2.0f;
+        this.alkuKeppiY = (this.valkoinenY+this.maxLautaY)/2f;
 
     }
 
