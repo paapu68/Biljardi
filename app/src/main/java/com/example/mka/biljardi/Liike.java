@@ -25,8 +25,10 @@ import java.util.ArrayList;
 public class Liike{
     LautaData lautadata = new LautaData();
     private float maxSiirtyma;
+    private boolean stopMotion;
     public Liike() {
         this.maxSiirtyma = 1.0f;
+        this.stopMotion = false;
     }
 
 // tehdään aika-askel ja päivitetään x ja y ja vx ja vy
@@ -153,7 +155,7 @@ public class Liike{
     */
    public void lisaaKitka(Pallot pallot) {
         float vx, vy, massa, kitkaVoima;
-        final float kitkaKerroin = 10f;
+        final float kitkaKerroin = 0.5f;
         final float gravitaatioVakio = 9.81f;
         //LautaData lautadata = new LautaData();
         
