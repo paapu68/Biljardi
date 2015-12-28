@@ -228,7 +228,7 @@ public class Biljardi extends Activity {
                 long startFrameTime = System.currentTimeMillis();
 
                 // Päivitä frame
-                if(!paused){
+                if(pallotLiikkuu){
                     update();
                 }
 
@@ -261,6 +261,8 @@ public class Biljardi extends Activity {
             // siirretään palloja ja päivitetään voimat ja nopeudet ja kiihtyvyydet
             liike.update(fps, pallot);
 
+            // tarkastetaan liikkuuko pallot
+            pallotLiikkuu = liike.getPallotLiikkuu();
 
             // Check for ball colliding with a brick
             //for(int i = 0; i < numBricks; i++){
@@ -432,26 +434,28 @@ public class Biljardi extends Activity {
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
-            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+            if (!pallotLiikkuu) {
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
-                // Player has touched the screen
-                case MotionEvent.ACTION_DOWN:
+                    // Player has touched the screen
+                    case MotionEvent.ACTION_DOWN:
 
-                    //paused = false;
-                    keppi.update_loppu(motionEvent.getX(),motionEvent.getY());
-                    break;
+                        //paused = false;
+                        keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
+                        break;
 
 
-                case MotionEvent.ACTION_MOVE:
-                    //paused = false;
-                    keppi.update_loppu(motionEvent.getX(),motionEvent.getY());
+                    case MotionEvent.ACTION_MOVE:
+                        //paused = false;
+                        keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
 
-                // Player has removed finger from screen
-                case MotionEvent.ACTION_UP:
-                    paused = false;
-                    keppi.iske(pallot.getLyontiPallo());
-                    pallotLiikkuu = true;
-                    break;
+                        // Player has removed finger from screen
+                    case MotionEvent.ACTION_UP:
+                        paused = false;
+                        keppi.iske(pallot.getLyontiPallo());
+                        pallotLiikkuu = true;
+                        break;
+                }
             }
             return true;
         }

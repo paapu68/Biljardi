@@ -24,11 +24,26 @@ import java.util.ArrayList;
 
 public class Liike{
     LautaData lautadata = new LautaData();
-    private float maxSiirtyma;
+    private float maxSiirtyma, maxNopeus, maxKiihtyvyys;
     private boolean stopMotion;
     public Liike() {
-        this.maxSiirtyma = 1.0f;
+        this.maxSiirtyma = 10.0f;
+        this.maxNopeus = 10.0f;
+        this.maxKiihtyvyys = 10.0f;
         this.stopMotion = false;
+    }
+
+
+    // liikkuvatko pallot enää?
+    public boolean getPallotLiikkuu(){
+        if ((this.maxSiirtyma < lautadata.maxSiirtyma)
+                & (this.maxNopeus < lautadata.maxNopeus)
+                & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
 
 // tehdään aika-askel ja päivitetään x ja y ja vx ja vy
@@ -37,6 +52,7 @@ public class Liike{
 
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         // uudet paikat
+        this.maxSiirtyma = 0.0f;
         for (Pallo pallo1 : p1) {
             float xold = pallo1.getPalloX();
             float yold = pallo1.getPalloY();
@@ -52,14 +68,14 @@ public class Liike{
             if (siirtyma > this.maxSiirtyma){
                 this.maxSiirtyma = siirtyma;
             }
-
         }
-
+        this.maxNopeus = pallot.suurinNopeus();
+        this.maxKiihtyvyys = pallot.suurinKiihtyvyys();
 
         // voimat uusissa paikoissa
         this.nollaaVoimat(pallot);
         //lisaavoimat.lisaaCoulombVoimatBiljardiPallot(pallot);
-        //lisaavoimat.lisaaHardCoreVoimat(pallot);
+        //this.lisaaHardCoreVoimat(pallot);
         this.lisaaKitka(pallot);
 
         // uudet nopeudet
@@ -128,7 +144,7 @@ public class Liike{
         float dx, dy, d, d10;
         final float epsilon = 1f-13;
         //LautaData lautadata = new LautaData();
-        final float minDist = lautadata.getPallonHalkaisija() /2.0f;
+        final float minDist = lautadata.getPallonHalkaisija() *2.0f;
         
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         for (Pallo pallo1 : p1) {
@@ -155,7 +171,7 @@ public class Liike{
     */
    public void lisaaKitka(Pallot pallot) {
         float vx, vy, massa, kitkaVoima;
-        final float kitkaKerroin = 0.5f;
+        final float kitkaKerroin = 0.01f;
         final float gravitaatioVakio = 9.81f;
         //LautaData lautadata = new LautaData();
         

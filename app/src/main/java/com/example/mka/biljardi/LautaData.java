@@ -21,6 +21,7 @@ public class LautaData {
     final float scale;
     final float alkuX, alkuY, valkoinenX, valkoinenY;
     final float alkuKeppiX, alkuKeppiY;
+    final float maxSiirtyma, maxNopeus, maxKiihtyvyys;
    
     final int pixelOffsetX;
     final int pixelOffsetY;
@@ -29,6 +30,9 @@ public class LautaData {
     
     
     public LautaData(){
+        this.maxSiirtyma = 0.01f;
+        this.maxNopeus = 0.01f;
+        this.maxKiihtyvyys = 0.1f;
         this.dt = 0.0001f;  // aika-askel
         this.minLautaX = 0.0f;
         this.minLautaY = 0.0f;

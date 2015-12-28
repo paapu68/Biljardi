@@ -19,15 +19,17 @@ public class Keppi {
         this.poikkeama_y = 0.0f;
         this.startX = lautadata.valkoinenX * screenX;
         this.startY = lautadata.valkoinenY * screenY;
-        this.stopX = lautadata.alkuKeppiX * screenX;
-        this.stopY = lautadata.alkuKeppiY *screenY;
+        //this.stopX = lautadata.alkuKeppiX * screenX;
+        //this.stopY = lautadata.alkuKeppiY *screenY;
+        this.stopX = lautadata.valkoinenX * screenX;
+        this.stopY = lautadata.valkoinenY * screenY;
     }
 
     // Isketään lyöntipalloa
     public void iske(Pallo pallo)
     {float vx, vy;
-        vx = -(this.getStopX()-this.getStartX())*0.001f;
-        vy = -(this.getStopY()-this.getStartY())*0.001f;
+        vx = -(this.getStopX()-this.getStartX())*0.005f;
+        vy = -(this.getStopY()-this.getStartY())*0.005f;
         pallo.setPalloVX(vx);
         pallo.setPalloVY(vy);
         Log.i("ISKU", Float.toString(vx));
@@ -74,8 +76,10 @@ public class Keppi {
     public void reset(int screenX, int screenY){
         this.startX = lautadata.valkoinenX * screenX;
         this.startY = lautadata.valkoinenY * screenY;
-        this.stopX = lautadata.alkuKeppiX * screenX;
-        this.stopY = lautadata.alkuKeppiY * screenY;
+        //this.stopX = lautadata.alkuKeppiX * screenX;
+        //this.stopY = lautadata.alkuKeppiY * screenY;
+        this.stopX = lautadata.valkoinenX * screenX;
+        this.stopY = lautadata.valkoinenY * screenY;
     }
 
 
