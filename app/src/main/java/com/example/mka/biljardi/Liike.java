@@ -83,8 +83,10 @@ public class Liike {
 
         // voimat uusissa paikoissa
         this.nollaaVoimat(pallot);
-        //lisaavoimat.lisaaCoulombVoimatBiljardiPallot(pallot);
-        this.lisaaHardCoreVoimat(pallot);
+        this.lisaaCoulombVoimatBiljardiPallot(pallot);
+        //this.lisaaHardCoreVoimat(pallot);
+        this.oldLisaaHardCoreVoimat(pallot);
+
         this.lisaaKitka(pallot);
 
         // uudet nopeudet
@@ -128,11 +130,11 @@ public class Liike {
                 d2 = (float) Math.sqrt(dx * dx + dy * dy);
                 float varaus1 = pallo1.getPalloVaraus();
                 float varaus2 = pallo2.getPalloVaraus();
-                if (d2 > 0.01) {
+                if (d2 > lautadata.getPallonHalkaisija()) {
                     pallo1.lisaaPalloFX(coulombsConstant *
-                            varaus1 * varaus2 * dx / (d2));
+                            varaus1 * varaus2 * dx / d2);
                     pallo1.lisaaPalloFY(coulombsConstant *
-                            varaus1 * varaus2 * dy / (d2));
+                            varaus1 * varaus2 * dy / d2);
                 }
             }
         }
@@ -142,8 +144,6 @@ public class Liike {
     public void lisaaHardCoreVoimat(Pallot pallot) {
         // Pallojen törmäys liikemäärän säilymisen avulla
         // https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
-
-
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         p1 = pallot.getPallotArray();
         int imax = pallot.getPallotArray().size();
@@ -175,9 +175,6 @@ public class Liike {
 
     }
 
-
-
-
         /**
          * Lisätään pallojen kiihtyvyyksiin
          * pallojen overlap vuorovaikutus.
@@ -190,9 +187,9 @@ public class Liike {
     public void oldLisaaHardCoreVoimat(Pallot pallot) {
         float dx, dy, d, d10;
         //final float epsilon = 1f-13;
-        final float epsilon = 1f-16;
+        final float epsilon = 0.0000000000001f;
         //LautaData lautadata = new LautaData();
-        final float minDist = lautadata.getPallonHalkaisija() *0.5f;
+        final float minDist = lautadata.getPallonHalkaisija() *1f;
         
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         for (Pallo pallo1 : p1) {
@@ -200,7 +197,8 @@ public class Liike {
                 dx = pallo1.getPalloX() - pallo2.getPalloX();
                 dy = pallo1.getPalloY() - pallo2.getPalloY();
                 d = (float) Math.sqrt(dx*dx + dy*dy) - minDist;
-                d10 = (float) Math.pow(d,10);
+                if (d < minDist) d = minDist ;
+                d10 = (float) Math.pow(d,4);
                 if (pallo1 != pallo2) {
                     pallo1.lisaaPalloFX(
                     (epsilon * dx) / (d10));
@@ -227,7 +225,7 @@ public class Liike {
         for (Pallo pallo : p) {
                 vx = pallo.getPalloVX();
                 vy = pallo.getPalloVY();
-                pallo.setPalloVX(0.995f*vx);
+                pallo.setPalloVX(0.995f * vx);
                 pallo.setPalloVY(0.995f*vy);
                 //massa = lautadata.getPallonMassa();
                 //kitkaVoima = kitkaKerroin * massa * gravitaatioVakio;

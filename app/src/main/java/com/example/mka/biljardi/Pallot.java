@@ -25,7 +25,7 @@ public class Pallot {
         this.asetaPallojenVarit();
         this.asetaPallojenPerusVaraus(1);
         this.asetaPallojenVaraukset();
-        this.vaihdaPallojenVarit();
+        this.vaihdaPallojenPaikat();
     }
 
     // pallot resetoidaan alkutilaan
@@ -34,8 +34,7 @@ public class Pallot {
         this.asetaPallojenVarit();
         this.asetaPallojenPerusVaraus(1);
         this.asetaPallojenVaraukset();
-        this.vaihdaPallojenVarit();
-
+        this.vaihdaPallojenPaikat();
     }
 
     public ArrayList<Pallo> getPallotArray() {
@@ -240,6 +239,30 @@ public class Pallot {
                 iv = this.pallotArr.get(i).getPalloVari();
                 this.pallotArr.get(i).setPalloVari(kv);
                 this.pallotArr.get(k).setPalloVari(iv);
+            }
+        }
+    }
+
+    /**
+     * vaihdetaan pallojen varit (paitsi ei musta ja valkoinen)
+     */
+    public void vaihdaPallojenPaikat(){
+        float ix, iy, kx, ky;
+        Pallo pallo;
+        int min = 2;
+        int max = 15;
+        int k;
+        for (int j = 1; j < 100; j = j + 1){
+            for (int i = 2; i <= 15 ; i = i + 1) {
+                k = min + (int)(Math.random() * ((max - min) + 1));
+                kx = this.pallotArr.get(k).getPalloX();
+                ky = this.pallotArr.get(k).getPalloY();
+                ix = this.pallotArr.get(i).getPalloX();
+                iy = this.pallotArr.get(i).getPalloY();
+                this.pallotArr.get(i).setPalloX(kx);
+                this.pallotArr.get(i).setPalloY(ky);
+                this.pallotArr.get(k).setPalloX(ix);
+                this.pallotArr.get(k).setPalloY(iy);
             }
         }
     }
