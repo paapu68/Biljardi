@@ -116,8 +116,22 @@ public class Pallo {
     
     public void nollaaPalloFY(){
         this.fy = 0.0f;
-    }    
-    
+    }
+
+    /**
+     * lisätään pallon nopeuden x koordinaattia
+     */
+    public void lisaaPalloVX(float vx){
+        this.vx += vx;
+    }
+
+    /**
+     * lisätään pallon nopeuden y koordinaattia
+     */
+    public void lisaaPalloVY(float vy){
+        this.vy += vy;
+    }
+
     /**
     * lisätään pallon voiman x koordinaattia 
     */    

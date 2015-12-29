@@ -264,6 +264,13 @@ public class Biljardi extends Activity {
             // tarkastetaan liikkuuko pallot
             pallotLiikkuu = liike.getPallotLiikkuu();
 
+            // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
+            if (pallotLiikkuu) {
+                keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+                keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+            }
+
+
             // Check for ball colliding with a brick
             //for(int i = 0; i < numBricks; i++){
 
@@ -451,7 +458,7 @@ public class Biljardi extends Activity {
 
                         // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
-                        paused = false;
+                        //paused = false;
                         keppi.iske(pallot.getLyontiPallo());
                         pallotLiikkuu = true;
                         break;

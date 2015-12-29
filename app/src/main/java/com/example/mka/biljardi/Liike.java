@@ -43,13 +43,13 @@ public class Liike {
         Log.i("maxNopeus", String.valueOf(maxNopeus));
         Log.i("maxKiihtyvyys", String.valueOf(maxKiihtyvyys));
 
-        //if ((this.maxSiirtyma < lautadata.maxSiirtyma)
-        //        & (this.maxNopeus < lautadata.maxNopeus)
-        //        & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)){
-        //    return false;
         if ((this.maxSiirtyma < lautadata.maxSiirtyma)
-                & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)) {
+                & (this.maxNopeus < lautadata.maxNopeus)
+                & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)){
             return false;
+        //if ((this.maxSiirtyma < lautadata.maxSiirtyma)
+        //        & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)) {
+        //    return false;
         } else {
             return true;
         }
@@ -148,7 +148,7 @@ public class Liike {
         p1 = pallot.getPallotArray();
         int imax = pallot.getPallotArray().size();
         for (int i = 0; i < imax; i++){
-            for (int j = i; j < imax; j++) {
+            for (int j = i+1; j < imax; j++) {
                 Pallo pallo1, pallo2;
                 pallo1 = p1.get(i);
                 pallo2 = p1.get(j);
@@ -156,15 +156,15 @@ public class Liike {
                 float vdot = pallo1.getPalloVX() * pallo2.getPalloVX() + pallo1.getPalloVY() * pallo2.getPalloVY();
                 float dx = pallo1.getPalloX() - pallo2.getPalloX();
                 float dy = pallo1.getPalloY() - pallo2.getPalloY();
-                float d = (float) Math.sqrt(dx * dx + dy * dy);
-                if ((vdot >= 0f) & (d < lautadata.getPallonHalkaisija() * 2f)) {
-
+                float d2 = (float) dx * dx + dy * dy;
+                if (d2 < Math.pow(lautadata.getPallonHalkaisija() * 1.5f, 2)) {
                     float dvx = pallo1.getPalloVX() - pallo2.getPalloVX();
                     float dvy = pallo1.getPalloVY() - pallo2.getPalloVY();
-                    float v1x = pallo1.getPalloVX() - dx * (dvx * dx + dvy * dy) / (d * d);
-                    float v1y = pallo1.getPalloVY() - dy * (dvx * dx + dvy * dy) / (d * d);
-                    float v2x = -v1x;
-                    float v2y = -v1y;
+                    float vdotxd2 = (dvx * dx + dvy * dy) / d2;
+                    float v1x = pallo1.getPalloVX() - dx * vdotxd2;
+                    float v1y = pallo1.getPalloVY() - dy * vdotxd2;
+                    float v2x = pallo2.getPalloVX() + dx * vdotxd2;
+                    float v2y = pallo2.getPalloVY() + dy * vdotxd2;
                     pallo1.setPalloVX(v1x);
                     pallo1.setPalloVY(v1y);
                     pallo2.setPalloVX(v2x);
@@ -219,7 +219,7 @@ public class Liike {
     */
    public void lisaaKitka(Pallot pallot) {
         float vx, vy, massa, kitkaVoima;
-        final float kitkaKerroin = 0.05f;
+        final float kitkaKerroin = 0.1f;
         final float gravitaatioVakio = 9.81f;
         //LautaData lautadata = new LautaData();
         
@@ -227,13 +227,13 @@ public class Liike {
         for (Pallo pallo : p) {
                 vx = pallo.getPalloVX();
                 vy = pallo.getPalloVY();
-                massa = lautadata.getPallonMassa();
+                pallo.setPalloVX(0.999f*vx);
+                pallo.setPalloVY(0.999f*vy);
+                //massa = lautadata.getPallonMassa();
                 //kitkaVoima = kitkaKerroin * massa * gravitaatioVakio;
-                kitkaVoima = kitkaKerroin * (float) Math.sqrt(vx*vx + vy*vy);
-                pallo.lisaaPalloFX(-this.getYksikkoVektoriX(vx, vy)*
-                        kitkaVoima);            
-                pallo.lisaaPalloFY(-this.getYksikkoVektoriY(vx, vy)*
-                        kitkaVoima);
+                //kitkaVoima = kitkaKerroin * (float) Math.sqrt(vx*vx + vy*vy);
+                //pallo.lisaaPalloVX(-this.getYksikkoVektoriX(vx, vy) * kitkaVoima);
+                //pallo.lisaaPalloVY(-this.getYksikkoVektoriY(vx, vy) * kitkaVoima);
         }
    }        
 
