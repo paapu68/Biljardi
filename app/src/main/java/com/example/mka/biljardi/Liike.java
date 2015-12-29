@@ -227,8 +227,8 @@ public class Liike {
         for (Pallo pallo : p) {
                 vx = pallo.getPalloVX();
                 vy = pallo.getPalloVY();
-                pallo.setPalloVX(0.999f*vx);
-                pallo.setPalloVY(0.999f*vy);
+                pallo.setPalloVX(0.995f*vx);
+                pallo.setPalloVY(0.995f*vy);
                 //massa = lautadata.getPallonMassa();
                 //kitkaVoima = kitkaKerroin * massa * gravitaatioVakio;
                 //kitkaVoima = kitkaKerroin * (float) Math.sqrt(vx*vx + vy*vy);

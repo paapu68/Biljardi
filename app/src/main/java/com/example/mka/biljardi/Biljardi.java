@@ -459,6 +459,7 @@ public class Biljardi extends Activity {
                         // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
                         //paused = false;
+                        pallot.nollaaNopeudet();
                         keppi.iske(pallot.getLyontiPallo());
                         pallotLiikkuu = true;
                         break;
