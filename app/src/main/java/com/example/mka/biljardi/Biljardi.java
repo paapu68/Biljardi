@@ -79,11 +79,11 @@ public class Biljardi extends Activity {
         Canvas canvas;
         Paint paint;
 
-        // Pelin frame rate per sekunti
-        long fps;
+        // Pelin dt
+        float dt;
 
         // Tarvitaan frame raten (fps) laskemiseen
-        private long timeThisFrame;
+        private float timeThisFrame;
 
         // Näytön koko pixeleissä
         int screenX;
@@ -224,14 +224,21 @@ public class Biljardi extends Activity {
         public void run() {
             int idraw=0;
             // Aika millisekunneissa startFrameTime :n
-            long startFrameTime = System.currentTimeMillis();
-            fps=32;
+            float startFrameTime = System.currentTimeMillis();
+            dt=40f;
 
             while (playing) {
                 // Lasketaan fps tälle framelle
                 // Tätä voi käyttää animaatiossa
 
-                //timeThisFrame = System.currentTimeMillis() - startFrameTime;
+                timeThisFrame = System.currentTimeMillis() - startFrameTime;
+                if (timeThisFrame < dt){
+                    try{
+                    Thread.sleep((long) (dt-timeThisFrame));}
+                    catch(InterruptedException ex) {
+                        Thread.currentThread().interrupt();
+                    }
+                }
                 //Log.i("TIME", Float.toString(timeThisFrame));
                 //if (timeThisFrame >= 1) {
                 //    fps = 1000 / timeThisFrame;
@@ -268,7 +275,7 @@ public class Biljardi extends Activity {
             //paddle.update(fps)
             //
             // siirretään palloja ja päivitetään voimat ja nopeudet ja kiihtyvyydet
-            liike.update(fps, pallot);
+            liike.update(dt*0.001f, pallot);
 
             // tarkastetaan liikkuuko pallot
             pallotLiikkuu = liike.getPallotLiikkuu();
@@ -469,7 +476,7 @@ public class Biljardi extends Activity {
                     case MotionEvent.ACTION_UP:
                         //paused = false;
                         pallot.nollaaNopeudet();
-                        keppi.iske(pallot.getLyontiPallo(), fps);
+                        keppi.iske(pallot.getLyontiPallo());
                         pallotLiikkuu = true;
                         break;
                 }

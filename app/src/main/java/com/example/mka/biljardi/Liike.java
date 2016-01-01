@@ -56,8 +56,7 @@ public class Liike {
     }
 
     // tehdään aika-askel ja päivitetään x ja y ja vx ja vy
-    public void update(long fps, Pallot pallot) {
-        float dt = 1.0f / fps;
+    public void update(float dt, Pallot pallot) {
 
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         // uudet paikat

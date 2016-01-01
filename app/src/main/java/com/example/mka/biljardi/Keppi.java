@@ -26,7 +26,7 @@ public class Keppi {
     }
 
     // Isketään lyöntipalloa
-    public void iske(Pallo pallo, long fps)
+    public void iske(Pallo pallo)
     {float vx, vy, v, vmax;
         vmax = 0.5f;
         vx = -(this.getStopX()-this.getStartX())*0.005f;
@@ -41,7 +41,7 @@ public class Keppi {
         //pallo.setPalloVY(vy/fps);
         pallo.setPalloVX(vx);
         pallo.setPalloVY(vy);
-        Log.i("IIISKU", Float.toString(fps));
+        //Log.i("IIISKU", Float.toString(fps));
     }
 
     // palautetaan tämänhetkinen kepin paikka
