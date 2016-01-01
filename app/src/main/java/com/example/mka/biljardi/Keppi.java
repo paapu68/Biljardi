@@ -26,13 +26,22 @@ public class Keppi {
     }
 
     // Isketään lyöntipalloa
-    public void iske(Pallo pallo)
-    {float vx, vy;
+    public void iske(Pallo pallo, long fps)
+    {float vx, vy, v, vmax;
+        vmax = 0.5f;
         vx = -(this.getStopX()-this.getStartX())*0.005f;
         vy = -(this.getStopY()-this.getStartY())*0.005f;
+        v= (float) Math.sqrt(vx*vx + vy*vy);
+        if (v > vmax){
+            vx=vx/v*vmax;
+            vy=vy/v*vmax;
+        }
+        //*0.005
+        //pallo.setPalloVX(vx/fps);
+        //pallo.setPalloVY(vy/fps);
         pallo.setPalloVX(vx);
         pallo.setPalloVY(vy);
-        Log.i("ISKU", Float.toString(vx));
+        Log.i("IIISKU", Float.toString(fps));
     }
 
     // palautetaan tämänhetkinen kepin paikka

@@ -84,8 +84,8 @@ public class Liike {
         // voimat uusissa paikoissa
         this.nollaaVoimat(pallot);
         this.lisaaCoulombVoimatBiljardiPallot(pallot);
-        //this.lisaaHardCoreVoimat(pallot);
-        this.oldLisaaHardCoreVoimat(pallot);
+        this.lisaaHardCoreVoimat(pallot);
+        //this.oldLisaaHardCoreVoimat(pallot);
 
         this.lisaaKitka(pallot);
 
@@ -120,17 +120,17 @@ public class Liike {
      */
     public void lisaaCoulombVoimatBiljardiPallot(Pallot pallot) {
         float dx, dy, d2;
-        final float coulombsConstant = 8.987551787368f * 1000000000f;
+        final float coulombsConstant = 8.987551787368f * 100000000f;
 
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         for (Pallo pallo1 : p1) {
             for (Pallo pallo2 : p1) {
                 dx = pallo1.getPalloX() - pallo2.getPalloX();
                 dy = pallo1.getPalloY() - pallo2.getPalloY();
-                d2 = (float) Math.sqrt(dx * dx + dy * dy);
+                d2 = (float) dx * dx + dy * dy;
                 float varaus1 = pallo1.getPalloVaraus();
                 float varaus2 = pallo2.getPalloVaraus();
-                if (d2 > lautadata.getPallonHalkaisija()) {
+                if (d2 > lautadata.getPallonHalkaisija()*lautadata.getPallonHalkaisija()) {
                     pallo1.lisaaPalloFX(coulombsConstant *
                             varaus1 * varaus2 * dx / d2);
                     pallo1.lisaaPalloFY(coulombsConstant *
@@ -157,7 +157,8 @@ public class Liike {
                 float dx = pallo1.getPalloX() - pallo2.getPalloX();
                 float dy = pallo1.getPalloY() - pallo2.getPalloY();
                 float d2 = (float) dx * dx + dy * dy;
-                if (d2 < Math.pow(lautadata.getPallonHalkaisija() * 1.5f, 2)) {
+                float d = (float) Math.sqrt(d2);
+                if (d < lautadata.getPallonHalkaisija()) {
                     float dvx = pallo1.getPalloVX() - pallo2.getPalloVX();
                     float dvy = pallo1.getPalloVY() - pallo2.getPalloVY();
                     float vdotxd2 = (dvx * dx + dvy * dy) / d2;
@@ -186,25 +187,27 @@ public class Liike {
          */
     public void oldLisaaHardCoreVoimat(Pallot pallot) {
         float dx, dy, d, d10;
-        //final float epsilon = 1f-13;
-        final float epsilon = 0.0000000000001f;
+        final float epsilon = 50.f;
+        //final float epsilon = 0.0000000000001f;
         //LautaData lautadata = new LautaData();
-        final float minDist = lautadata.getPallonHalkaisija() *1f;
-        
+        final float minDist = lautadata.getPallonHalkaisija() *1.0f;
+
         ArrayList<Pallo> p1 = pallot.getPallotArray();
-        for (Pallo pallo1 : p1) {
-            for (Pallo pallo2 : p1) {
+        int imax = pallot.getPallotArray().size();
+        for (int i = 0; i < imax; i++){
+            for (int j = i+1; j < imax; j++) {
+                Pallo pallo1, pallo2;
+                pallo1 = p1.get(i);
+                pallo2 = p1.get(j);
                 dx = pallo1.getPalloX() - pallo2.getPalloX();
                 dy = pallo1.getPalloY() - pallo2.getPalloY();
-                d = (float) Math.sqrt(dx*dx + dy*dy) - minDist;
-                if (d < minDist) d = minDist ;
-                d10 = (float) Math.pow(d,4);
-                if (pallo1 != pallo2) {
-                    pallo1.lisaaPalloFX(
-                    (epsilon * dx) / (d10));
-                    pallo1.lisaaPalloFY( 
-                    (epsilon * dy) / (d10));
-                }
+                d = (float) Math.sqrt(dx*dx + dy*dy);
+                //d10 = (float) Math.pow(0.5*minDist/d,10);
+                float myexp = (float) Math.exp(-400f*d);
+                pallo1.lisaaPalloFX(epsilon * dx /d * myexp);
+                pallo1.lisaaPalloFY(epsilon * dy /d * myexp);
+                pallo2.lisaaPalloFX(-epsilon * dx /d * myexp);
+                pallo2.lisaaPalloFY(-epsilon * dy /d * myexp);
             }
         }
     }      
@@ -226,7 +229,7 @@ public class Liike {
                 vx = pallo.getPalloVX();
                 vy = pallo.getPalloVY();
                 pallo.setPalloVX(0.995f * vx);
-                pallo.setPalloVY(0.995f*vy);
+                pallo.setPalloVY(0.995f * vy);
                 //massa = lautadata.getPallonMassa();
                 //kitkaVoima = kitkaKerroin * massa * gravitaatioVakio;
                 //kitkaVoima = kitkaKerroin * (float) Math.sqrt(vx*vx + vy*vy);

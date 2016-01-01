@@ -222,10 +222,24 @@ public class Biljardi extends Activity {
 
         @Override
         public void run() {
-            while (playing) {
+            int idraw=0;
+            // Aika millisekunneissa startFrameTime :n
+            long startFrameTime = System.currentTimeMillis();
+            fps=32;
 
-                // Aika millisekunneissa startFrameTime :n
-                long startFrameTime = System.currentTimeMillis();
+            while (playing) {
+                // Lasketaan fps tälle framelle
+                // Tätä voi käyttää animaatiossa
+
+                //timeThisFrame = System.currentTimeMillis() - startFrameTime;
+                //Log.i("TIME", Float.toString(timeThisFrame));
+                //if (timeThisFrame >= 1) {
+                //    fps = 1000 / timeThisFrame;
+                //}
+                //else {
+                //    fps = 1000;
+                //}
+                //startFrameTime = System.currentTimeMillis();
 
                 // Päivitä frame
                 if(pallotLiikkuu){
@@ -233,16 +247,11 @@ public class Biljardi extends Activity {
                 }
 
                 // Piirrä frame
-                draw();
-
-                // Lasketaan fps tälle framelle
-                // Tätä voi käyttää animaatiossa
-
-                timeThisFrame = System.currentTimeMillis() - startFrameTime;
-                if (timeThisFrame >= 1) {
-                    fps = 1000 / timeThisFrame;
-                }
-
+                //idraw++;
+                //if (idraw > 2){
+                //    idraw = 0;
+                    draw();
+                //}
             }
 
         }
@@ -460,7 +469,7 @@ public class Biljardi extends Activity {
                     case MotionEvent.ACTION_UP:
                         //paused = false;
                         pallot.nollaaNopeudet();
-                        keppi.iske(pallot.getLyontiPallo());
+                        keppi.iske(pallot.getLyontiPallo(), fps);
                         pallotLiikkuu = true;
                         break;
                 }
