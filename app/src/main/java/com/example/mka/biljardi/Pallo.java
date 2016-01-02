@@ -26,7 +26,7 @@ public class Pallo {
     private float ay;
     private float fx, fy;
     private float varaus;
-    private Character vari;
+    private String vari;
     private int color;
 
    /**
@@ -50,7 +50,7 @@ public class Pallo {
         this.fx = 0.0f;
         this.fy = 0.0f;
         this.varaus = 0.0f;
-        this.vari = ' ';
+        this.vari = " ";
         this.color = Color.WHITE;
     }
 
@@ -146,7 +146,7 @@ public class Pallo {
         this.fy += fy;
     }    
     
-    public Character getPalloVari(){
+    public String getPalloVari(){
         return this.vari;
     }
 
@@ -156,7 +156,7 @@ public class Pallo {
 
     public int getColor() {return this.color;}
     
-    public void setPalloVari(Character vari){
+    public void setPalloVari(String vari){
         this.vari = vari;
     }
     

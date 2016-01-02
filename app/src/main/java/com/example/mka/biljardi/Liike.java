@@ -43,10 +43,14 @@ public class Liike {
         Log.i("maxNopeus", String.valueOf(maxNopeus));
         Log.i("maxKiihtyvyys", String.valueOf(maxKiihtyvyys));
 
+
         if ((this.maxSiirtyma < lautadata.maxSiirtyma)
-                & (this.maxNopeus < lautadata.maxNopeus)
-                & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)){
+                & (this.maxNopeus < lautadata.maxNopeus)){
             return false;
+        //if ((this.maxSiirtyma < lautadata.maxSiirtyma)
+        //        & (this.maxNopeus < lautadata.maxNopeus)
+        //        & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)){
+        //    return false;
         //if ((this.maxSiirtyma < lautadata.maxSiirtyma)
         //        & (this.maxKiihtyvyys < lautadata.maxKiihtyvyys)) {
         //    return false;
@@ -118,8 +122,8 @@ public class Liike {
      * @param pallot Pallot jotka vuorovaikuttavat keskenään.
      */
     public void lisaaCoulombVoimatBiljardiPallot(Pallot pallot) {
-        float dx, dy, d2;
-        final float coulombsConstant = 8.987551787368f * 100000000f;
+        float dx, dy, d2, d;
+        final float coulombsConstant = 10000f;
 
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         for (Pallo pallo1 : p1) {
@@ -127,13 +131,14 @@ public class Liike {
                 dx = pallo1.getPalloX() - pallo2.getPalloX();
                 dy = pallo1.getPalloY() - pallo2.getPalloY();
                 d2 = (float) dx * dx + dy * dy;
+                d = (float) Math.sqrt(d2);
                 float varaus1 = pallo1.getPalloVaraus();
                 float varaus2 = pallo2.getPalloVaraus();
-                if (d2 > lautadata.getPallonHalkaisija()*lautadata.getPallonHalkaisija()) {
+                if (d > lautadata.getPallonSade()*2f) {
                     pallo1.lisaaPalloFX(coulombsConstant *
-                            varaus1 * varaus2 * dx / d2);
+                            varaus1 * varaus2 * dx / (d*d2));
                     pallo1.lisaaPalloFY(coulombsConstant *
-                            varaus1 * varaus2 * dy / d2);
+                            varaus1 * varaus2 * dy / (d*d2));
                 }
             }
         }
@@ -157,7 +162,7 @@ public class Liike {
                 float dy = pallo1.getPalloY() - pallo2.getPalloY();
                 float d2 = (float) dx * dx + dy * dy;
                 float d = (float) Math.sqrt(d2);
-                if (d < lautadata.getPallonHalkaisija()) {
+                if (d < lautadata.getPallonSade()*2f) {
                     float dvx = pallo1.getPalloVX() - pallo2.getPalloVX();
                     float dvy = pallo1.getPalloVY() - pallo2.getPalloVY();
                     float vdotxd2 = (dvx * dx + dvy * dy) / d2;
@@ -189,7 +194,7 @@ public class Liike {
         final float epsilon = 50.f;
         //final float epsilon = 0.0000000000001f;
         //LautaData lautadata = new LautaData();
-        final float minDist = lautadata.getPallonHalkaisija() *1.0f;
+        final float minDist = lautadata.getPallonSade() *1.0f;
 
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         int imax = pallot.getPallotArray().size();

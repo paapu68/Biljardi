@@ -167,58 +167,58 @@ public class Pallot {
         pallo = new Pallo(lautadata.valkoinenX, lautadata.valkoinenY);
         this.pallotArr.add(pallo);
         // musta pallo toiseksi
-        pallo = new Pallo(lautadata.alkuX,lautadata.alkuY-2.0f*lautadata.pallonHalkaisija);
+        pallo = new Pallo(lautadata.alkuX,lautadata.alkuY-2.0f*lautadata.pallonSade);
         this.pallotArr.add(pallo);
         // kärkipallo
         pallo = new Pallo(lautadata.alkuX,lautadata.alkuY);
         this.pallotArr.add(pallo);
 
         // 2 palloa 2. rivissä
-        y = lautadata.alkuY-lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-1f*lautadata.pallonHalkaisija;
+        y = lautadata.alkuY-lautadata.pallonSade;
+        x = lautadata.alkuX-1f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x=x+2f*lautadata.pallonHalkaisija;
+        x=x+2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 2palloa 3. riviin (musta on jo laitettua)
-        y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-2.0f*lautadata.pallonHalkaisija;
+        y = y - lautadata.pallonSade;
+        x = lautadata.alkuX-2.0f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // tässä skipataan musta
-        x = x+4.0f*lautadata.pallonHalkaisija;
+        x = x+4.0f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 4 palloa 4. riviin
-        y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-3.0f*lautadata.pallonHalkaisija;
+        y = y - lautadata.pallonSade;
+        x = lautadata.alkuX-3.0f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
         // 5palloa 5. riviin
-        y = y - lautadata.pallonHalkaisija;
-        x = lautadata.alkuX-4.0f*lautadata.pallonHalkaisija;
+        y = y - lautadata.pallonSade;
+        x = lautadata.alkuX-4.0f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
-        x = x + 2f*lautadata.pallonHalkaisija;
+        x = x + 2f*lautadata.pallonSade;
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
     }

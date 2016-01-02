@@ -92,6 +92,9 @@ public class Biljardi extends Activity {
         // The players paddle
         //Paddle paddle;
 
+        //Reikiin liittyvät toiminnot
+        Reiat reiat;
+
         // tämä luokka tarjoaa liikkumiseen ja voimaan liittyvät rutiinit
         Liike liike;
 
@@ -147,6 +150,8 @@ public class Biljardi extends Activity {
 
             // Create a ball
             // ball = new Ball(screenX, screenY);
+
+            reiat = new Reiat();
 
             liike = new Liike();
 
@@ -365,24 +370,24 @@ public class Biljardi extends Activity {
                 mymin=Math.min(screenX, screenY);
                 for (Pallo pallo : pallot.getPallotArray()){
                     //Log.i("Omapallovari", pallo.getPalloVari());
-                    if (pallo.getPalloVari() == 'v') {
+                    if (pallo.getPalloVari() == "valkoinen") {
                         paint.setColor(Color.argb(255, 255, 255, 255));
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
-                                mymin * lautadata.pallonHalkaisija, paint);
-                    } else if (pallo.getPalloVari() == 'm') {
+                                mymin * lautadata.pallonSade, paint);
+                    } else if (pallo.getPalloVari() == "musta") {
                         paint.setColor(Color.argb(255, 0, 0, 0));
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
-                                mymin * lautadata.pallonHalkaisija, paint);
-                    } else if (pallo.getPalloVari() == 'p') {
+                                mymin * lautadata.pallonSade, paint);
+                    } else if (pallo.getPalloVari() == "punainen") {
                         //Log.i("Omapallovari", " punainen");
                         paint.setColor(Color.argb(255, 255, 0, 0));
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
-                                mymin * lautadata.pallonHalkaisija, paint);
+                                mymin * lautadata.pallonSade, paint);
                     }
-                    else if (pallo.getPalloVari() == 's') {
+                    else if (pallo.getPalloVari() == "sininen") {
                         paint.setColor(Color.argb(255, 0, 0, 255));
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
-                                mymin * lautadata.pallonHalkaisija, paint);
+                                mymin * lautadata.pallonSade, paint);
                     }
                     //else { paint.setColor(Color.argb(255,255,255,255));
                     //}

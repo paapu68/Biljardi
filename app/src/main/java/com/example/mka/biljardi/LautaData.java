@@ -14,10 +14,10 @@ public class LautaData {
     private final float dt;
     final float minLautaX, minLautaY;
     final float maxLautaX, maxLautaY;
-    final float pallonHalkaisija;
+    final float pallonSade;
     final float pallonMassa;
     final float kepinPituus;
-    final float reianHalkaisija;
+    final float reianSade;
     final float scale;
     final float alkuX, alkuY, valkoinenX, valkoinenY;
     final float alkuKeppiX, alkuKeppiY;
@@ -25,7 +25,7 @@ public class LautaData {
    
     final int pixelOffsetX;
     final int pixelOffsetY;
-    final int pallonHalkaisijaPixel, reianHalkaisijaPixel;
+    final int pallonSadePixel, reianSadePixel;
     final int pituusXpixel, pituusYpixel;
     
     
@@ -38,19 +38,19 @@ public class LautaData {
         this.minLautaY = 0.0f;
         this.maxLautaX = 1.0f;
         this.maxLautaY = 1.0f;
-        this.pallonHalkaisija = 0.02f;
+        this.pallonSade = 0.02f;
         this.pallonMassa = 0.16f;
-        this.kepinPituus = 6.0f * this.pallonHalkaisija;
-        this.reianHalkaisija = this.pallonHalkaisija * 1.6f;
+        this.kepinPituus = 6.0f * this.pallonSade;
+        this.reianSade = this.pallonSade * 1.6f;
         this.scale = 200.0f;
         this.pixelOffsetX = 50;
         this.pixelOffsetY = 50; 
         float ph;
-        ph = this.pallonHalkaisija * this.scale;
-        this.pallonHalkaisijaPixel = Math.round(ph);
+        ph = this.pallonSade * this.scale;
+        this.pallonSadePixel = Math.round(ph);
         float rh;
-        rh = this.reianHalkaisija * this.scale;
-        this.reianHalkaisijaPixel = Math.round(rh);
+        rh = this.reianSade * this.scale;
+        this.reianSadePixel = Math.round(rh);
         float pituusX = (this.maxLautaX-this.minLautaX)*this.scale;
         this.pituusXpixel = Math.round(pituusX);
         float pituusY = (this.maxLautaY-this.minLautaY)*this.scale;
@@ -84,8 +84,8 @@ public class LautaData {
         return this.minLautaY;
     }
     
-    public float getPallonHalkaisija(){
-        return this.pallonHalkaisija;
+    public float getPallonSade(){
+        return this.pallonSade;
     }
     
     public float getPallonMassa(){
@@ -112,12 +112,12 @@ public class LautaData {
         return this.pituusYpixel;
     }  
     
-    public int getpallonHalkaisijaPixel(){
-        return this.pallonHalkaisijaPixel;
+    public int getpallonSadePixel(){
+        return this.pallonSadePixel;
     }
     
-    public int getreianHalkaisijaPixel(){
-        return this.reianHalkaisijaPixel;
+    public int getreianSadePixel(){
+        return this.reianSadePixel;
     }
     
     public float getScale(){
