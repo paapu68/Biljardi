@@ -29,6 +29,8 @@ import android.view.SurfaceView;
 import android.view.ViewDebug;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
 import com.example.mka.biljardi.LautaData;
 
 public class Biljardi extends Activity {
@@ -88,6 +90,8 @@ public class Biljardi extends Activity {
         // Näytön koko pixeleissä
         int screenX;
         int screenY;
+
+
 
         // The players paddle
         //Paddle paddle;
@@ -230,7 +234,8 @@ public class Biljardi extends Activity {
             int idraw=0;
             // Aika millisekunneissa startFrameTime :n
             float startFrameTime = System.currentTimeMillis();
-            dt=40f;
+            dt=30f;
+            pallotLiikkuu = false;
 
             while (playing) {
                 // Lasketaan fps tälle framelle
@@ -258,11 +263,27 @@ public class Biljardi extends Activity {
                     update();
                 }
 
+
                 // Piirrä frame
                 //idraw++;
                 //if (idraw > 2){
                 //    idraw = 0;
-                    draw();
+                draw();
+                //}
+
+                // tarkastetaan liikkuuko pallot
+                pallotLiikkuu = liike.getPallotLiikkuu(pallot);
+
+                // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
+                if (pallotLiikkuu) {
+                    keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+                    keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+                }
+
+                // tarkastetaan menikö reikään
+                // menikö valkoinen
+                //reiat.ekanaReiassa(pallot);
+                //if (reiat.getEkanaReiassa() == "valkoinen"){
                 //}
             }
 
@@ -282,14 +303,7 @@ public class Biljardi extends Activity {
             // siirretään palloja ja päivitetään voimat ja nopeudet ja kiihtyvyydet
             liike.update(dt*0.001f, pallot);
 
-            // tarkastetaan liikkuuko pallot
-            pallotLiikkuu = liike.getPallotLiikkuu();
 
-            // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
-            if (pallotLiikkuu) {
-                keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-                keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-            }
 
 
             // Check for ball colliding with a brick
@@ -366,8 +380,19 @@ public class Biljardi extends Activity {
                 // Draw the paddle
                 //canvas.drawRect(paddle.getRect(), paint);
 
-                // Piirrä pallot
+                // Piirra reiat
                 mymin=Math.min(screenX, screenY);
+                paint.setColor(Color.argb(255, 255, 255, 255));
+                ArrayList<Float> reiatX= reiat.getReiatX();
+                ArrayList<Float> reiatY= reiat.getReiatY();
+                int imax = reiatX.size();
+                for (int i = 0; i < imax; i++){
+                    canvas.drawCircle(reiatX.get(i) * screenX, reiatY.get(i) * screenY,
+                            mymin * lautadata.reianSade, paint);
+                }
+
+
+                // Piirrä pallot
                 for (Pallo pallo : pallot.getPallotArray()){
                     //Log.i("Omapallovari", pallo.getPalloVari());
                     if (pallo.getPalloVari() == "valkoinen") {

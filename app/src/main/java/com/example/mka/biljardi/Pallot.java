@@ -227,7 +227,7 @@ public class Pallot {
      * vaihdetaan pallojen varit (paitsi ei musta ja valkoinen)
      */
     public void vaihdaPallojenVarit(){
-        char iv,kv;
+        String iv,kv;
         Pallo pallo;
         int min = 2;
         int max = 15;
@@ -274,16 +274,16 @@ public class Pallot {
 
     public void asetaPallojenVarit(){
         // valkoinen pallo ensin
-        this.pallotArr.get(0).setPalloVari('v');
+        this.pallotArr.get(0).setPalloVari("valkoinen");
         // musta pallo toiseksi
-        this.pallotArr.get(1).setPalloVari('m');
+        this.pallotArr.get(1).setPalloVari("musta");
         // negatiiviset (punaiset pallot, 2-8)
         for (int i = 2; i <= 8 ; i = i + 1) {
-            this.pallotArr.get(i).setPalloVari('p');
+            this.pallotArr.get(i).setPalloVari("punainen");
         }
         // positiiviset (siniset pallot, 9-15)
         for (int i = 9; i <= 15 ; i = i + 1) {
-            this.pallotArr.get(i).setPalloVari('s');
+            this.pallotArr.get(i).setPalloVari("sininen");
         }
     }
 

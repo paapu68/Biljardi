@@ -25,8 +25,8 @@ public final class Reiat {
      * HashMap 'mitaReiissa' kertoo montako palloa kutakin väriä
      * on mennyt reikiin tämän lyönnin aikana.
      */
-    private ArrayList<Double> reiatX = new ArrayList<Double>();
-    private ArrayList<Double> reiatY = new ArrayList<Double>();   
+    private ArrayList<Float> reiatX = new ArrayList<Float>();
+    private ArrayList<Float> reiatY = new ArrayList<Float>();
     private LautaData lautadata = new LautaData();
     private HashMap<String, Integer> mitaReiissa;
     private String ekanaReiassa;
@@ -34,11 +34,11 @@ public final class Reiat {
     
     public Reiat(){
         this.mitaReiissa = new HashMap<String, Integer>();
-        this.setReikaXY(0.0, 0.0);
-        this.setReikaXY(lautadata.maxLautaX, 0.0);
-        this.setReikaXY(0.0, lautadata.maxLautaY/2.0);
-        this.setReikaXY(lautadata.maxLautaX, lautadata.maxLautaY/2.0);
-        this.setReikaXY(0.0, lautadata.maxLautaY);
+        this.setReikaXY(0.0f, 0.0f);
+        this.setReikaXY(lautadata.maxLautaX, 0.0f);
+        this.setReikaXY(0.0f, lautadata.maxLautaY/2.0f);
+        this.setReikaXY(lautadata.maxLautaX, lautadata.maxLautaY/2.0f);
+        this.setReikaXY(0.0f, lautadata.maxLautaY);
         this.setReikaXY(lautadata.maxLautaX, lautadata.maxLautaY);
         this.mitaReiissa.put("musta", 0);
         this.mitaReiissa.put("valkoinen", 0);
@@ -55,16 +55,16 @@ public final class Reiat {
         this.ekanaReiassa = "enTieda";
     }
     
-    public void setReikaXY(double x, double y){
+    public void setReikaXY(float x, float y){
         this.reiatX.add(x);
         this.reiatY.add(y);
     }
     
-    public ArrayList<Double> getReiatX(){
+    public ArrayList<Float> getReiatX(){
         return this.reiatX;
     }
     
-    public ArrayList<Double> getReiatY(){
+    public ArrayList<Float> getReiatY(){
         return this.reiatY;
     }
     

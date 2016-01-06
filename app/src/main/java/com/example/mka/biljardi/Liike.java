@@ -38,10 +38,12 @@ public class Liike {
 
 
     // liikkuvatko pallot enää?
-    public boolean getPallotLiikkuu() {
-        Log.i("maxSiirtyma", String.valueOf(maxSiirtyma));
-        Log.i("maxNopeus", String.valueOf(maxNopeus));
-        Log.i("maxKiihtyvyys", String.valueOf(maxKiihtyvyys));
+    public boolean getPallotLiikkuu(Pallot pallot) {
+        this.maxNopeus = pallot.suurinNopeus();
+        this.maxKiihtyvyys = pallot.suurinKiihtyvyys();
+        Log.i("maxSiirtyma", String.valueOf(this.maxSiirtyma));
+        Log.i("maxNopeus", String.valueOf(this.maxNopeus));
+        Log.i("maxKiihtyvyys", String.valueOf(this.maxKiihtyvyys));
 
 
         if ((this.maxSiirtyma < lautadata.maxSiirtyma)
@@ -81,15 +83,12 @@ public class Liike {
                 this.maxSiirtyma = siirtyma;
             }
         }
-        this.maxNopeus = pallot.suurinNopeus();
-        this.maxKiihtyvyys = pallot.suurinKiihtyvyys();
 
         // voimat uusissa paikoissa
         this.nollaaVoimat(pallot);
         this.lisaaCoulombVoimatBiljardiPallot(pallot);
-        this.lisaaHardCoreVoimat(pallot);
-        //this.oldLisaaHardCoreVoimat(pallot);
-
+        this.lisaaHardCoreVoimat(dt, pallot);
+        ////this.oldLisaaHardCoreVoimat(pallot);
         this.lisaaKitka(pallot);
 
         // uudet nopeudet
@@ -108,7 +107,28 @@ public class Liike {
             pallo1.setPalloAX(pallo1.getPalloFX() / lautadata.getPallonMassa());
             pallo1.setPalloAY(pallo1.getPalloFY() / lautadata.getPallonMassa());
         }
+        this.maxNopeus = pallot.suurinNopeus();
+        this.maxKiihtyvyys = pallot.suurinKiihtyvyys();
     }
+
+
+    public float getNewDistance(float dt, Pallo pallo1, Pallo pallo2) {
+        // kahden pallon etäisyys jos otettaisiin seuraava aika-askel
+        // (tarvitaan liikemäärän säilymiseen perustuvassa hard-core törmäyksessä
+        // jotta ei tehdä peräkkäin samaa tärmäystä)
+            float x1 = pallo1.getPalloX() + pallo1.getPalloVX() * dt
+                    + 0.5f * pallo1.getPalloAX() * dt * dt;;
+            float y1 = pallo1.getPalloY() + pallo1.getPalloVY() * dt
+                    + 0.5f * pallo1.getPalloAX() * dt * dt;;
+            float x2 = pallo2.getPalloX() + pallo2.getPalloVX() * dt
+                    + 0.5f * pallo2.getPalloAX() * dt * dt;;
+            float y2 = pallo2.getPalloY() + pallo2.getPalloVY() * dt
+                    + 0.5f * pallo2.getPalloAX() * dt * dt;;
+
+            float siirtyma2 = (float) Math.sqrt((x2 - x1) * (x2 - x1)
+                    + (y2 - y1) * (y2 - y1));
+            return siirtyma2;
+        }
 
 
     /**
@@ -123,7 +143,7 @@ public class Liike {
      */
     public void lisaaCoulombVoimatBiljardiPallot(Pallot pallot) {
         float dx, dy, d2, d;
-        final float coulombsConstant = 10000f;
+        final float coulombsConstant = 10000000f;
 
         ArrayList<Pallo> p1 = pallot.getPallotArray();
         for (Pallo pallo1 : p1) {
@@ -145,7 +165,7 @@ public class Liike {
     }
 
     // liikemäärän säilymisen avulla tehty törmäys
-    public void lisaaHardCoreVoimat(Pallot pallot) {
+    public void lisaaHardCoreVoimat(float dt, Pallot pallot) {
         // Pallojen törmäys liikemäärän säilymisen avulla
         // https://en.wikipedia.org/wiki/Elastic_collision#Two-dimensional_collision_with_two_moving_objects
         ArrayList<Pallo> p1 = pallot.getPallotArray();
@@ -157,23 +177,26 @@ public class Liike {
                 pallo1 = p1.get(i);
                 pallo2 = p1.get(j);
                 // ovatko samaan suuntaan? (nopeuksien pistetulo > 0)
-                float vdot = pallo1.getPalloVX() * pallo2.getPalloVX() + pallo1.getPalloVY() * pallo2.getPalloVY();
+                //float vdot = pallo1.getPalloVX() * pallo2.getPalloVX() + pallo1.getPalloVY() * pallo2.getPalloVY();
                 float dx = pallo1.getPalloX() - pallo2.getPalloX();
                 float dy = pallo1.getPalloY() - pallo2.getPalloY();
                 float d2 = (float) dx * dx + dy * dy;
                 float d = (float) Math.sqrt(d2);
                 if (d < lautadata.getPallonSade()*2f) {
-                    float dvx = pallo1.getPalloVX() - pallo2.getPalloVX();
-                    float dvy = pallo1.getPalloVY() - pallo2.getPalloVY();
-                    float vdotxd2 = (dvx * dx + dvy * dy) / d2;
-                    float v1x = pallo1.getPalloVX() - dx * vdotxd2;
-                    float v1y = pallo1.getPalloVY() - dy * vdotxd2;
-                    float v2x = pallo2.getPalloVX() + dx * vdotxd2;
-                    float v2y = pallo2.getPalloVY() + dy * vdotxd2;
-                    pallo1.setPalloVX(v1x);
-                    pallo1.setPalloVY(v1y);
-                    pallo2.setPalloVX(v2x);
-                    pallo2.setPalloVY(v2y);
+                    //estetään peräkkäiset törmäykset tsekkaamalla että pallot lähestyvät toisiaan
+                    if (this.getNewDistance(dt, pallo1, pallo2) < d) {
+                        float dvx = pallo1.getPalloVX() - pallo2.getPalloVX();
+                        float dvy = pallo1.getPalloVY() - pallo2.getPalloVY();
+                        float vdotxd2 = (dvx * dx + dvy * dy) / d2;
+                        float v1x = pallo1.getPalloVX() - dx * vdotxd2;
+                        float v1y = pallo1.getPalloVY() - dy * vdotxd2;
+                        float v2x = pallo2.getPalloVX() + dx * vdotxd2;
+                        float v2y = pallo2.getPalloVY() + dy * vdotxd2;
+                        pallo1.setPalloVX(v1x);
+                        pallo1.setPalloVY(v1y);
+                        pallo2.setPalloVX(v2x);
+                        pallo2.setPalloVY(v2y);
+                    }
                 }
             }
         }

@@ -41,7 +41,7 @@ public class Keppi {
         //pallo.setPalloVY(vy/fps);
         pallo.setPalloVX(vx);
         pallo.setPalloVY(vy);
-        //Log.i("IIISKU", Float.toString(fps));
+        Log.i("IIISKU", Float.toString(vy));
     }
 
     // palautetaan tämänhetkinen kepin paikka
