@@ -112,6 +112,9 @@ public class Biljardi extends Activity {
         // Pallot
         Pallot pallot;
 
+        // Pelaajat
+        Pelaaja pelaaja1, pelaaja2;
+
         // Up to 200 bricks
         //Brick[] bricks = new Brick[200];
         //int numBricks = 0;
@@ -164,6 +167,9 @@ public class Biljardi extends Activity {
             keppi = new Keppi(screenX, screenY);
 
             pallot = new Pallot();
+
+            pelaaja1 = new Pelaaja("1");
+            pelaaja2 = new Pelaaja("2");
 
             // Load the sounds
 
@@ -233,22 +239,16 @@ public class Biljardi extends Activity {
         public void run() {
             int idraw=0;
             // Aika millisekunneissa startFrameTime :n
-            float startFrameTime = System.currentTimeMillis();
             dt=30f;
             pallotLiikkuu = false;
 
             while (playing) {
+                float startFrameTime = System.currentTimeMillis();
+
                 // Lasketaan fps tälle framelle
                 // Tätä voi käyttää animaatiossa
 
-                timeThisFrame = System.currentTimeMillis() - startFrameTime;
-                if (timeThisFrame < dt){
-                    try{
-                    Thread.sleep((long) (dt-timeThisFrame));}
-                    catch(InterruptedException ex) {
-                        Thread.currentThread().interrupt();
-                    }
-                }
+
                 //Log.i("TIME", Float.toString(timeThisFrame));
                 //if (timeThisFrame >= 1) {
                 //    fps = 1000 / timeThisFrame;
@@ -285,6 +285,16 @@ public class Biljardi extends Activity {
                 //reiat.ekanaReiassa(pallot);
                 //if (reiat.getEkanaReiassa() == "valkoinen"){
                 //}
+                if (pallotLiikkuu) {
+                    timeThisFrame = System.currentTimeMillis() - startFrameTime;
+                    if (timeThisFrame < dt){
+                        try{
+                            Thread.sleep((long) (dt-timeThisFrame));}
+                        catch(InterruptedException ex) {
+                            Thread.currentThread().interrupt();
+                        }
+                    }
+                }
             }
 
         }
