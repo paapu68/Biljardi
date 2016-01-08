@@ -168,8 +168,8 @@ public class Biljardi extends Activity {
 
             pallot = new Pallot();
 
-            pelaaja1 = new Pelaaja("1");
-            pelaaja2 = new Pelaaja("2");
+            pelaaja1 = new Pelaaja("1", true);
+            pelaaja2 = new Pelaaja("2", false);
 
             // Load the sounds
 
@@ -283,7 +283,21 @@ public class Biljardi extends Activity {
                 // tarkastetaan menikö reikään
                 // menikö valkoinen
                 //reiat.ekanaReiassa(pallot);
-                //if (reiat.getEkanaReiassa() == "valkoinen"){
+                if (reiat.getEkanaReiassa() == "en tieda"){
+                    reiat.ekanaReiassa(pallot);
+                }
+
+                if (reiat.getEkanaReiassa() == "musta"){
+                    if (pelaaja1.getTurn()){
+                        pelaaja2.setWin(true);
+                    }else {
+                        pelaaja1.setWin(true);
+                    }
+                }
+
+                
+
+
                 //}
                 if (pallotLiikkuu) {
                     timeThisFrame = System.currentTimeMillis() - startFrameTime;
