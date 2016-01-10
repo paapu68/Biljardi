@@ -353,16 +353,6 @@ public class Biljardi extends Activity {
                     }
                 }
 
-                if (!pallotLiikkuu & !saaLyoda){
-                    if (pelaaja1.getTurn()){
-                        if (pelaaja1.getTries() == "en tieda"){
-                            pelaaja1.
-                        }
-                    }
-
-
-                    saaLyoda = true;
-                }
 
 
 
