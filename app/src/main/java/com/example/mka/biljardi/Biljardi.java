@@ -287,13 +287,14 @@ public class Biljardi extends Activity {
                 }
 
                 if (pallotLiikkuu) {
+                    Log.i("EKANA:", String.valueOf(reiat.getEkanaReiassa()));
                     // tarkastetaan mikä väri menee ekana reikään
-                    if (reiat.getEkanaReiassa() == "en tieda") {
+                    if (reiat.getEkanaReiassa().equals("enTieda") ){
                         reiat.ekanaReiassa(pallot);
                     }
 
                     // jos ekana menee musta on peli ratkennut
-                    if (reiat.getEkanaReiassa() == "musta") {
+                    if (reiat.getEkanaReiassa().equals("musta")) {
                         vuorossa.setWin(false);
                         eiVuorossa.setWin(true);
                         // peli päättyy
@@ -301,6 +302,7 @@ public class Biljardi extends Activity {
                         pallotLiikkuu = false;
                         saaLyoda = false;
                     }
+
 
                     // Otetaan talteen mitkä pallot meni reikiin
                     reiat.lisaaReikiinMenneet(pallot);
@@ -311,7 +313,7 @@ public class Biljardi extends Activity {
                 // Jos lyönti on loppu niin vaihdetaan vuoro ja kirjataan tilanne
                 if (!pallotLiikkuu & !saaLyoda){
                     // jos pelin ekana menee valkoinen niin vaihdetaan vuoro ja aloitetaan alusta
-                    if (vuorossa.getTries() == "en tieda" & reiat.getEkanaReiassa() == "valkoinen") {
+                    if (vuorossa.getTries().equals("enTieda") & reiat.getEkanaReiassa().equals("valkoinen")) {
                         dummy = vuorossa;
                         vuorossa = eiVuorossa;
                         eiVuorossa = dummy;
@@ -319,7 +321,7 @@ public class Biljardi extends Activity {
                         saaLyoda = true;
                     }
                     // mitään ei mennyt reikiin
-                    else if (reiat.getEkanaReiassa() == "en tieda"){
+                    else if (reiat.getEkanaReiassa().equals("enTieda")){
                         dummy = vuorossa;
                         vuorossa = eiVuorossa;
                         eiVuorossa = dummy;
@@ -329,8 +331,8 @@ public class Biljardi extends Activity {
                     else {
                         // jos aiemmin ei ollut mennyt mitään reikiin niin laitetaan
                         // yritettävät värit pelaajille
-                        if (vuorossa.getTries() == "en tieda") {
-                            if (reiat.getEkanaReiassa() == "punainen") {
+                        if (vuorossa.getTries().equals("enTieda")) {
+                            if (reiat.getEkanaReiassa().equals("punainen")) {
                                 vuorossa.setTries("punainen");
                                 eiVuorossa.setTries("sininen");
                             } else {
@@ -338,7 +340,7 @@ public class Biljardi extends Activity {
                                 eiVuorossa.setTries("punainen");
                             }
                         }
-                        if (vuorossa.getTries() == "punainen") {
+                        if (vuorossa.getTries().equals("punainen")) {
                             vuorossa.setScore(reiat.getMitaReiissa().get("punainen"));
                             eiVuorossa.setScore(reiat.getMitaReiissa().get("sininen"));
                         } else {
@@ -354,9 +356,6 @@ public class Biljardi extends Activity {
                 }
 
 
-
-
-                //}
                 if (pallotLiikkuu) {
                     timeThisFrame = System.currentTimeMillis() - startFrameTime;
                     if (timeThisFrame < dt){
@@ -523,8 +522,9 @@ public class Biljardi extends Activity {
                 paint.setColor(Color.argb(255,  255, 255, 255));
 
                 // Draw the score
-                paint.setTextSize(40);
-                canvas.drawText("Score: " + score + "   Lives: " + lives, 10,50, paint);
+                paint.setTextSize(20);
+                canvas.drawText("P: " + pelaaja1.getName() + " T: " +pelaaja1.getTries() + "S: "+
+                        String.valueOf(pelaaja1.getScore()), 10,50, paint);
 
                 // Has the player cleared the screen?
                 //if(score == numBricks * 10){

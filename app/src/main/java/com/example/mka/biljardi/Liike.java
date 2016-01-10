@@ -41,9 +41,9 @@ public class Liike {
     public boolean getPallotLiikkuu(Pallot pallot) {
         this.maxNopeus = pallot.suurinNopeus();
         this.maxKiihtyvyys = pallot.suurinKiihtyvyys();
-        Log.i("maxSiirtyma", String.valueOf(this.maxSiirtyma));
-        Log.i("maxNopeus", String.valueOf(this.maxNopeus));
-        Log.i("maxKiihtyvyys", String.valueOf(this.maxKiihtyvyys));
+        //Log.i("maxSiirtyma", String.valueOf(this.maxSiirtyma));
+        //Log.i("maxNopeus", String.valueOf(this.maxNopeus));
+        //Log.i("maxKiihtyvyys", String.valueOf(this.maxKiihtyvyys));
 
 
         if ((this.maxSiirtyma < lautadata.maxSiirtyma)

@@ -41,7 +41,7 @@ public class Keppi {
         //pallo.setPalloVY(vy/fps);
         pallo.setPalloVX(vx);
         pallo.setPalloVY(vy);
-        Log.i("IIISKU", Float.toString(vy));
+        //Log.i("IIISKU", Float.toString(vy));
     }
 
     // palautetaan tämänhetkinen kepin paikka
@@ -79,7 +79,7 @@ public class Keppi {
     public void update_loppu(float x, float y){
 	    this.stopX = x;
 	    this.stopY = y;
-        Log.i("SIIRTO", " NYT!");
+        //Log.i("SIIRTO", " NYT!");
     }
 
     public void reset(int screenX, int screenY){

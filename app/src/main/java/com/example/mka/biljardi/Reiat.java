@@ -11,6 +11,7 @@ import com.example.mka.biljardi.LautaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import android.util.Log;
 
 /**
  * Biljardipöydän reikien koordinaatit kahdessa ArrayList:ssä
@@ -101,7 +102,9 @@ public final class Reiat {
           for (Pallo p1 : pallot.getPallotArray()){
              if (!this.tarkastaPallo(p1)) {
                  // pallo on reiassa
-                 this.ekanaReiassa = p1.getPalloVari(); 
+                 this.ekanaReiassa = p1.getPalloVari();
+                 Log.i("REIASSA", String.valueOf(p1.getPalloVari()));
+
              }
           }
         }
