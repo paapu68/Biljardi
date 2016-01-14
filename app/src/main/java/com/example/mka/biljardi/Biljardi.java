@@ -303,6 +303,35 @@ public class Biljardi extends Activity {
                         saaLyoda = false;
                     }
 
+                    // valkoinen menee pussiin, lopetetaan vuoro siihen
+                    // (tässä ei anneta pallojen jatkaa matkaa)
+
+                    // jos pelin ekana menee valkoinen niin vaihdetaan vuoro ja aloitetaan alusta
+                    if (vuorossa.getTries().equals("enTieda") & reiat.getEkanaReiassa().equals("valkoinen")) {
+                        dummy = vuorossa;
+                        vuorossa = eiVuorossa;
+                        eiVuorossa = dummy;
+                        pallotLiikkuu = false;
+                        pallot.asetaPallojenAlkupaikat();
+                        saaLyoda = true;
+                    } else if (reiat.getEkanaReiassa().equals("valkoinen")) {
+                        // normi vuorolla menee valkoinen pussiin
+                        if (vuorossa.getTries().equals("punainen")) {
+                            vuorossa.setScore(reiat.getMitaReiissa().get("punainen"));
+                            eiVuorossa.setScore(reiat.getMitaReiissa().get("sininen"));
+                        } else {
+                            vuorossa.setScore(reiat.getMitaReiissa().get("sininen"));
+                            eiVuorossa.setScore(reiat.getMitaReiissa().get("punainen"));
+                        }
+                        // vaihdetaan lyöntivuoro
+                        dummy = vuorossa;
+                        vuorossa = eiVuorossa;
+                        eiVuorossa = dummy;
+                        pallotLiikkuu = false;
+                        saaLyoda = true;
+                        pallot.arvoLyontiPallonPaikka(lautadata.minLautaX, lautadata.minLautaY,
+                                lautadata.maxLautaX, lautadata.maxLautaY, lautadata.reianSade);
+                    }
 
                     // Otetaan talteen mitkä pallot meni reikiin
                     reiat.lisaaReikiinMenneet(pallot);
@@ -312,16 +341,9 @@ public class Biljardi extends Activity {
 
                 // Jos lyönti on loppu niin vaihdetaan vuoro ja kirjataan tilanne
                 if (!pallotLiikkuu & !saaLyoda){
-                    // jos pelin ekana menee valkoinen niin vaihdetaan vuoro ja aloitetaan alusta
-                    if (vuorossa.getTries().equals("enTieda") & reiat.getEkanaReiassa().equals("valkoinen")) {
-                        dummy = vuorossa;
-                        vuorossa = eiVuorossa;
-                        eiVuorossa = dummy;
-                        pallot.asetaPallojenAlkupaikat();
-                        saaLyoda = true;
-                    }
+
                     // mitään ei mennyt reikiin
-                    else if (reiat.getEkanaReiassa().equals("enTieda")){
+                    if (reiat.getEkanaReiassa().equals("enTieda")){
                         dummy = vuorossa;
                         vuorossa = eiVuorossa;
                         eiVuorossa = dummy;
@@ -523,8 +545,9 @@ public class Biljardi extends Activity {
 
                 // Draw the score
                 paint.setTextSize(20);
-                canvas.drawText("P: " + pelaaja1.getName() + " T: " +pelaaja1.getTries() + "S: "+
-                        String.valueOf(pelaaja1.getScore()), 10,50, paint);
+                canvas.drawText("P: " + pelaaja1.getName() + " T: " +pelaaja1.getTryColor() + "S: "+
+                        String.valueOf(pelaaja1.getScore()) +" P: " + pelaaja2.getName() +
+                        " T: " +pelaaja2.getTryColor() + "S: "+ String.valueOf(pelaaja2.getScore()), 10,50, paint);
 
                 // Has the player cleared the screen?
                 //if(score == numBricks * 10){
