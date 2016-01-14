@@ -278,7 +278,9 @@ public class Biljardi extends Activity {
                 //}
 
                 // tarkastetaan liikkuuko pallot
-                pallotLiikkuu = liike.getPallotLiikkuu(pallot);
+                if (pallotLiikkuu){
+                    pallotLiikkuu = liike.getPallotLiikkuu(pallot);
+                }
 
                 // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
                 if (pallotLiikkuu) {
@@ -308,14 +310,47 @@ public class Biljardi extends Activity {
 
                     // jos pelin ekana menee valkoinen niin vaihdetaan vuoro ja aloitetaan alusta
                     if (vuorossa.getTries().equals("enTieda") & reiat.getEkanaReiassa().equals("valkoinen")) {
+                        Log.i("EkanaValkoinen--reset:", String.valueOf(reiat.getEkanaReiassa()));
                         dummy = vuorossa;
                         vuorossa = eiVuorossa;
                         eiVuorossa = dummy;
                         pallotLiikkuu = false;
                         pallot.asetaPallojenAlkupaikat();
                         saaLyoda = true;
-                    } else if (reiat.getEkanaReiassa().equals("valkoinen")) {
-                        // normi vuorolla menee valkoinen pussiin
+                        reiat.resetoiReiat();
+                        draw();
+                    // normi vuorolla menee valkoinen pussiin, pysäytetään liike
+                    } else if (!reiat.tarkastaPallo(pallot.getLyontiPallo())) {
+                        pallotLiikkuu = false;
+                        pallot.arvoLyontiPallonPaikka(lautadata.minLautaX, lautadata.minLautaY,
+                                lautadata.maxLautaX, lautadata.maxLautaY, lautadata.reianSade);
+                    } else {
+                        // Otetaan talteen mitkä pallot meni reikiin
+                        reiat.lisaaReikiinMenneet(pallot);
+                        // Poistetaan reikiin menneet pallot pelista
+                        reiat.tapaNormiPallot(pallot);
+                    }
+                }
+
+                // Jos lyönti on loppu niin vaihdetaan vuoro ja kirjataan tilanne
+                if (!pallotLiikkuu & !saaLyoda){
+                    // mitään ei mennyt reikiin
+                    if (reiat.getEkanaReiassa().equals("enTieda")){
+                        dummy = vuorossa;
+                        vuorossa = eiVuorossa;
+                        eiVuorossa = dummy;
+                        saaLyoda = true;
+                        // vaihdetaan lyöntivuoro
+                        dummy = vuorossa;
+                        vuorossa = eiVuorossa;
+                        eiVuorossa = dummy;
+                    // valkoinen meni reikään
+                    }else if (!reiat.tarkastaPallo(pallot.getLyontiPallo())) {
+                        Log.i("NormiValkoinen:", String.valueOf(reiat.getEkanaReiassa()));
+                        // Otetaan talteen mitkä pallot meni reikiin
+                        reiat.lisaaReikiinMenneet(pallot);
+                        // Poistetaan reikiin menneet pallot pelista
+                        reiat.tapaNormiPallot(pallot);
                         if (vuorossa.getTries().equals("punainen")) {
                             vuorossa.setScore(reiat.getMitaReiissa().get("punainen"));
                             eiVuorossa.setScore(reiat.getMitaReiissa().get("sininen"));
@@ -327,28 +362,8 @@ public class Biljardi extends Activity {
                         dummy = vuorossa;
                         vuorossa = eiVuorossa;
                         eiVuorossa = dummy;
-                        pallotLiikkuu = false;
-                        saaLyoda = true;
-                        pallot.arvoLyontiPallonPaikka(lautadata.minLautaX, lautadata.minLautaY,
-                                lautadata.maxLautaX, lautadata.maxLautaY, lautadata.reianSade);
                     }
 
-                    // Otetaan talteen mitkä pallot meni reikiin
-                    reiat.lisaaReikiinMenneet(pallot);
-                    // Poistetaan reikiin menneet pallot pelista
-                    reiat.tapaNormiPallot(pallot);
-                }
-
-                // Jos lyönti on loppu niin vaihdetaan vuoro ja kirjataan tilanne
-                if (!pallotLiikkuu & !saaLyoda){
-
-                    // mitään ei mennyt reikiin
-                    if (reiat.getEkanaReiassa().equals("enTieda")){
-                        dummy = vuorossa;
-                        vuorossa = eiVuorossa;
-                        eiVuorossa = dummy;
-                        saaLyoda = true;
-                    }
                     // jotain punaista tai sinistä meni ensin reikiin
                     else {
                         // jos aiemmin ei ollut mennyt mitään reikiin niin laitetaan
@@ -361,7 +376,12 @@ public class Biljardi extends Activity {
                                 vuorossa.setTries("sininen");
                                 eiVuorossa.setTries("punainen");
                             }
+                            // vaihdetaan lyöntivuoro
+                            dummy = vuorossa;
+                            vuorossa = eiVuorossa;
+                            eiVuorossa = dummy;
                         }
+                        // pelaaja onnistui
                         if (vuorossa.getTries().equals("punainen")) {
                             vuorossa.setScore(reiat.getMitaReiissa().get("punainen"));
                             eiVuorossa.setScore(reiat.getMitaReiissa().get("sininen"));
@@ -369,12 +389,11 @@ public class Biljardi extends Activity {
                             vuorossa.setScore(reiat.getMitaReiissa().get("sininen"));
                             eiVuorossa.setScore(reiat.getMitaReiissa().get("punainen"));
                         }
-                        // vaihdetaan lyöntivuoro
-                        dummy = vuorossa;
-                        vuorossa = eiVuorossa;
-                        eiVuorossa = dummy;
-                        saaLyoda = true;
+                        // ei vaihdeta lyöntivuoroa
                     }
+                    // saa taas lyödä (tulokset kirjattu ja pallot ei liiku)
+                    saaLyoda = true;
+
                 }
 
 
