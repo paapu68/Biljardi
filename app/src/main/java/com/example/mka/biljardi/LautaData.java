@@ -129,7 +129,7 @@ public class LautaData {
     }
 
     public void setTekstinPaikkaY(int screenY){
-        this.tekstiY = (int)screenY + (int)(Math.random() * ( screenY/2 + 1));
+        this.tekstiY = (int)screenY/10 + (int)(Math.random() * ( screenY/2 + 1));
     }
 
     public int getTekstinPaikkaX(){
