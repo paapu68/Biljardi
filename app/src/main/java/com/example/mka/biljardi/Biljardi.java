@@ -31,7 +31,10 @@ import android.view.ViewDebug;
 import java.io.IOException;
 import java.util.ArrayList;
 
+
 import com.example.mka.biljardi.LautaData;
+
+import static java.util.concurrent.ThreadLocalRandom.*;
 
 public class Biljardi extends Activity {
 
@@ -93,7 +96,6 @@ public class Biljardi extends Activity {
         // Näytön koko pixeleissä
         int screenX;
         int screenY;
-
 
 
         // The players paddle
@@ -243,7 +245,7 @@ public class Biljardi extends Activity {
         public void run() {
             int idraw=0;
             // Aika millisekunneissa startFrameTime :n
-            dt=30f;
+            dt=40f;
             pallotLiikkuu = false;
             Pelaaja vuorossa = pelaaja1;
             Pelaaja eiVuorossa = pelaaja2;
@@ -316,12 +318,12 @@ public class Biljardi extends Activity {
                         eiVuorossa = dummy;
                         pallotLiikkuu = false;
                         pallot.asetaPallojenAlkupaikat();
+                        vuorossa.reset();
+                        eiVuorossa.reset();
                         saaLyoda = true;
+                        this.laitaAlkuasemaJaRestart();
+                        vuorossa.reset();
                         reiat.resetoiReiat();
-                        draw();
-                    // normi vuorolla menee valkoinen pussiin, pysäytetään liike
-                    } else if (!reiat.tarkastaPallo(pallot.getLyontiPallo())) {
-                        pallotLiikkuu = false;
                         pallot.arvoLyontiPallonPaikka(lautadata.minLautaX, lautadata.minLautaY,
                                 lautadata.maxLautaX, lautadata.maxLautaY, lautadata.reianSade);
                     } else {
@@ -410,6 +412,8 @@ public class Biljardi extends Activity {
             }
 
         }
+
+
 
         // Kaikki päivitettävä tänne
         // Liike, törmäykset jne
@@ -513,7 +517,6 @@ public class Biljardi extends Activity {
                             mymin * lautadata.reianSade, paint);
                 }
 
-
                 // Piirrä pallot
                 for (Pallo pallo : pallot.getPallotArray()){
                     //Log.i("Omapallovari", pallo.getPalloVari());
@@ -560,13 +563,26 @@ public class Biljardi extends Activity {
                 //}
 
                 // Choose the brush color for drawing
-                paint.setColor(Color.argb(255,  255, 255, 255));
+                paint.setColor(Color.argb(255, 255, 255, 255));
 
                 // Draw the score
-                paint.setTextSize(20);
-                canvas.drawText("P: " + pelaaja1.getName() + " T: " +pelaaja1.getTryColor() + "S: "+
-                        String.valueOf(pelaaja1.getScore()) +" P: " + pelaaja2.getName() +
-                        " T: " +pelaaja2.getTryColor() + "S: "+ String.valueOf(pelaaja2.getScore()), 10,50, paint);
+                paint.setTextSize(screenX / 20);
+
+
+
+                String show1 = "";
+                String show2 = "";
+                if (pelaaja1.getTurn()){
+                    show1 = "TURN:";
+                }
+                canvas.drawText(show1 + "P: " + pelaaja1.getName() + " T: " + pelaaja1.getTryColor() + "S: " +
+                        String.valueOf(pelaaja1.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY(),
+                        paint);
+                if (pelaaja2.getTurn()){
+                    show2 = "TURN:";
+                }
+                canvas.drawText(" P: " + pelaaja2.getName() + " T: " +pelaaja2.getTryColor() + "S: "+
+                        String.valueOf(pelaaja2.getScore()), lautadata.getTekstinPaikkaX(),lautadata.getTekstinPaikkaY() + screenX/10, paint);
 
                 // Has the player cleared the screen?
                 //if(score == numBricks * 10){
@@ -633,6 +649,8 @@ public class Biljardi extends Activity {
                         keppi.iske(pallot.getLyontiPallo());
                         pallotLiikkuu = true;
                         saaLyoda = false;
+                        lautadata.setTekstinPaikkaX(screenX);
+                        lautadata.setTekstinPaikkaY(screenY);
                         break;
                 }
             }

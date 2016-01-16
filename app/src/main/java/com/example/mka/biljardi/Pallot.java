@@ -7,6 +7,7 @@
 package com.example.mka.biljardi;
 import com.example.mka.biljardi.LautaData;
 
+import java.sql.Array;
 import java.util.ArrayList;    // imports ArrayList
 /**
  * biljardipallojen jono ja jonoon liittyviä toimintoja.
@@ -163,6 +164,8 @@ public class Pallot {
     public void asetaPallojenAlkupaikat(){
         float x, y;
         Pallo pallo;
+        // jos meilla on jotain palloja valmiiksi, ne tapetaan pois
+        this.pallotArr.clear();
         // valkoinen pallo ensin
         pallo = new Pallo(lautadata.valkoinenX, lautadata.valkoinenY);
         this.pallotArr.add(pallo);
@@ -222,6 +225,9 @@ public class Pallot {
         pallo = new Pallo(x,y);
         this.pallotArr.add(pallo);
     }
+
+    // Palautetaan pallojen alkupaikat
+
 
     /**
      * vaihdetaan pallojen varit (paitsi ei musta ja valkoinen)

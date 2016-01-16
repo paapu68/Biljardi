@@ -5,6 +5,8 @@ package com.example.mka.biljardi;/*
  */
 
 import java.util.ArrayList;
+import java.util.Random;
+
 
 /**
  * Tähän luokkaan talletetaan pelilautaan liittyvät mitta yms tiedot.
@@ -27,6 +29,7 @@ public class LautaData {
     final int pixelOffsetY;
     final int pallonSadePixel, reianSadePixel;
     final int pituusXpixel, pituusYpixel;
+    int tekstiX, tekstiY;
     
     
     public LautaData(){
@@ -61,7 +64,8 @@ public class LautaData {
         this.valkoinenY = 3.0f/4.0f*this.maxLautaY;
         this.alkuKeppiX = this.alkuX;
         this.alkuKeppiY = (this.valkoinenY+this.maxLautaY)/2f;
-
+        this.tekstiX = 10;
+        this.tekstiY = 10;
     }
 
     public float getDT(){
@@ -119,7 +123,22 @@ public class LautaData {
     public int getreianSadePixel(){
         return this.reianSadePixel;
     }
-    
+
+    public void setTekstinPaikkaX(int screenX){
+        this.tekstiX = (int)(Math.random() * (screenX/2 + 1));
+    }
+
+    public void setTekstinPaikkaY(int screenY){
+        this.tekstiY = (int)screenY + (int)(Math.random() * ( screenY/2 + 1));
+    }
+
+    public int getTekstinPaikkaX(){
+        return this.tekstiX;
+    }
+    public int getTekstinPaikkaY() {
+        return this.tekstiY;
+    }
+
     public float getScale(){
         return this.scale;
     }
