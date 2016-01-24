@@ -71,17 +71,21 @@ public class Biljardi extends Activity {
 
         SurfaceHolder ourHolder;
 
+
+        //Pelin tilanteeseen liittyvä logiikka
+        Logiikka logiikka;
+
         // Joukseeko peli vai ei?
-        volatile boolean playing;
+        // volatile boolean playing;
 
         // Peli on pausella aluksi
-        boolean paused = true;
+        // boolean paused = true;
 
         // Liikkuuko pallot
-        boolean pallotLiikkuu = false;
+        // boolean pallotLiikkuu = false;
 
         // Saako lyönnin suorittaa
-        boolean saaLyoda = true;
+        // boolean saaLyoda = true;
 
         // Canvas Paint objektit
         Canvas canvas;
@@ -98,8 +102,6 @@ public class Biljardi extends Activity {
         int screenY;
 
 
-        // The players paddle
-        //Paddle paddle;
 
         //Reikiin liittyvät toiminnot
         Reiat reiat;
@@ -119,11 +121,10 @@ public class Biljardi extends Activity {
 
         // Pelaajat
         Pelaaja pelaaja1, pelaaja2;
-        Pelaaja dummy;
 
-        // Up to 200 bricks
-        //Brick[] bricks = new Brick[200];
-        //int numBricks = 0;
+
+        ArrayList<Pelaaja> pelaajat = new ArrayList<Pelaaja>();
+
 
         // Musaa FX
         SoundPool soundPool;
@@ -136,8 +137,6 @@ public class Biljardi extends Activity {
         // Pisteet
         int score = 0;
 
-        // Elämät
-        int lives = 3;
 
         // Kun kutsutaan (call new())  gameView:ssa niin tämä lähtee liikkeelle
         public BiljardiView(Context context) {
@@ -159,11 +158,6 @@ public class Biljardi extends Activity {
             screenX = size.x;
             screenY = size.y;
 
-            // paddle = new Paddle(screenX, screenY);
-
-            // Create a ball
-            // ball = new Ball(screenX, screenY);
-
             reiat = new Reiat();
 
             liike = new Liike();
@@ -176,6 +170,9 @@ public class Biljardi extends Activity {
 
             pelaaja1 = new Pelaaja("1", true);
             pelaaja2 = new Pelaaja("2", false);
+
+            pelaajat.add(pelaaja2);
+            pelaajat.add(pelaaja1);
 
             // Load the sounds
 
@@ -216,29 +213,7 @@ public class Biljardi extends Activity {
             //Kepin alkupaikka lyöntipalloon
             keppi.reset(screenX, screenY);
             pallot.reset();
-
-            
-            // Put the ball back to the start
-            //ball.reset(screenX, screenY);
-
-            int brickWidth = screenX / 8;
-            int brickHeight = screenY / 10;
-
-            // Build a wall of bricks
-            //numBricks = 0;
-            for(int column = 0; column < 8; column ++ ){
-                for(int row = 0; row < 3; row ++ ){
-                    //bricks[numBricks] = new Brick(row, column, brickWidth, brickHeight);
-                    //numBricks ++;
-                }
-            }
-
-            // if game over reset scores and lives
-            if(lives == 0) {
-                score = 0;
-                lives = 3;
-            }
-
+            score = 0;
         }
 
         @Override
@@ -246,26 +221,17 @@ public class Biljardi extends Activity {
             int idraw=0;
             // Aika millisekunneissa startFrameTime :n
             dt=40f;
-            pallotLiikkuu = false;
+            logiikka.setPallotLiikkuu(false);
 
-            while (playing) {
+            while (logiikka.getPlaying()) {
                 float startFrameTime = System.currentTimeMillis();
 
                 // Lasketaan fps tälle framelle
                 // Tätä voi käyttää animaatiossa
 
 
-                //Log.i("TIME", Float.toString(timeThisFrame));
-                //if (timeThisFrame >= 1) {
-                //    fps = 1000 / timeThisFrame;
-                //}
-                //else {
-                //    fps = 1000;
-                //}
-                //startFrameTime = System.currentTimeMillis();
-
                 // Päivitä frame
-                if(pallotLiikkuu){
+                if(logiikka.getPallotLiikkuu()){
                     update();
                 }
 
@@ -277,132 +243,25 @@ public class Biljardi extends Activity {
                 draw();
                 //}
 
-                // tarkastetaan liikkuuko pallot
-                if (pallotLiikkuu){
-                    pallotLiikkuu = liike.getPallotLiikkuu(pallot);
-                }
+                // Tarkastetaan pelitilanne
+                logiikka.tarkastaTilanne(pelaajat, reiat, pallot, liike );
 
                 // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
-                if (pallotLiikkuu) {
+                if (logiikka.getPallotLiikkuu()) {
                     keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
                     keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
                 }
 
-                if (pallotLiikkuu) {
-                    Log.i("EKANA:", String.valueOf(reiat.getEkanaReiassa()));
-                    // tarkastetaan mikä väri menee ekana reikään
-                    if (reiat.getEkanaReiassa().equals("enTieda") ){
-                        reiat.ekanaReiassa(pallot);
-                    }
 
-                    // jos ekana menee musta on peli ratkennut
-                    if (reiat.getEkanaReiassa().equals("musta")) {
-                        if (pelaaja1.getTurn()){
-                            pelaaja1.setWin(false);}
-                        else{
-                            pelaaja2.setWin(true);
-                        }
-                        // peli päättyy
-                        playing = false;
-                        pallotLiikkuu = false;
-                        saaLyoda = false;
-                    }
-
-                    // valkoinen menee pussiin, lopetetaan vuoro siihen
-                    // (tässä ei anneta pallojen jatkaa matkaa)
-
-                    // jos pelin ekana menee valkoinen niin vaihdetaan vuoro ja aloitetaan alusta
-                    if (pelaaja1.getTries().equals("enTieda") & reiat.getEkanaReiassa().equals("valkoinen")) {
-                        Log.i("EkanaValkoinen--reset:", String.valueOf(reiat.getEkanaReiassa()));
-                        pallotLiikkuu = false;
-                        pallot.asetaPallojenAlkupaikat();
-                        pelaaja1.reset();
-                        pelaaja2.reset();
-                        saaLyoda = true;
-                        this.laitaAlkuasemaJaRestart();
-                        reiat.resetoiReiat();
-                        pallot.arvoLyontiPallonPaikka(lautadata.minLautaX, lautadata.minLautaY,
-                                lautadata.maxLautaX, lautadata.maxLautaY, lautadata.reianSade);
-                    } else {
-                        // Otetaan talteen mitkä pallot meni reikiin
-                        reiat.lisaaReikiinMenneet(pallot);
-                        // Poistetaan reikiin menneet pallot pelista
-                        reiat.tapaNormiPallot(pallot);
-                    }
-                }
-
-                // Jos lyönti on loppu niin vaihdetaan vuoro ja kirjataan tilanne
-                if (!pallotLiikkuu & !saaLyoda){
-                    // mitään ei mennyt reikiin
-                    if (reiat.getEkanaReiassa().equals("enTieda")){
-                        saaLyoda = true;
-                        // vaihdetaan lyöntivuoro
-                        if (pelaaja1.getTurn()){
-                            pelaaja1.setTurn(false);
-                            pelaaja2.setTurn(true);
-                        }else {
-                            pelaaja1.setTurn(true);
-                            pelaaja2.setTurn(false);
-                        }
-                    // valkoinen meni reikään
-                    }else if (!reiat.tarkastaPallo(pallot.getLyontiPallo())) {
-                        // vaihdetaan vuoro
-                        pelaaja1.setTurn(!pelaaja1.getTurn());
-                        pelaaja2.setTurn(!pelaaja2.getTurn());
-                        Log.i("NormiValkoinen:", String.valueOf(reiat.getEkanaReiassa()));
-                        // Otetaan talteen mitkä pallot meni reikiin
-                        reiat.lisaaReikiinMenneet(pallot);
-                        // Poistetaan reikiin menneet pallot pelista
-                        reiat.tapaNormiPallot(pallot);
-                        if (pelaaja1.getTries().equals("punainen")) {
-                            pelaaja1.setScore(reiat.getMitaReiissa().get("punainen"));
-                            pelaaja2.setScore(reiat.getMitaReiissa().get("sininen"));
-                        } else {
-                            pelaaja1.setScore(reiat.getMitaReiissa().get("sininen"));
-                            pelaaja2.setScore(reiat.getMitaReiissa().get("punainen"));
-                        }
-                    }
-
-                    // jotain punaista tai sinistä meni ensin reikiin
-                    else {
-                        // jos aiemmin ei ollutp mennyt mitään reikiin niin laitetaan
-                        // yritettävät värit pelaajille
-                        if (pelaaja1.getTries().equals("enTieda")) {
-                            if (reiat.getEkanaReiassa().equals("punainen")) {
-                                if (pelaaja1.getTurn()) {
-                                    pelaaja1.setTries("punainen");
-                                    pelaaja2.setTries("sininen");
-                                } else{
-                                    pelaaja1.setTries("sininen");
-                                    pelaaja2.setTries("punainen");
-                                }
-                            } else {
-                                if (pelaaja1.getTurn()) {
-                                    pelaaja1.setTries("sininen");
-                                    pelaaja2.setTries("punainen");
-                                }else{
-                                    pelaaja1.setTries("punainen");
-                                    pelaaja2.setTries("sininen");
-                                }
-                            }
-                        }
-                        // pelaaja onnistui
-                        if (pelaaja1.getTries().equals("punainen")) {
-                            pelaaja1.setScore(reiat.getMitaReiissa().get("punainen"));
-                            pelaaja2.setScore(reiat.getMitaReiissa().get("sininen"));
-                        } else {
-                            pelaaja1.setScore(reiat.getMitaReiissa().get("sininen"));
-                            pelaaja2.setScore(reiat.getMitaReiissa().get("punainen"));
-                        }
-                        // ei vaihdeta lyöntivuoroa
-                    }
-                    // saa taas lyödä (tulokset kirjattu ja pallot ei liiku)
-                    saaLyoda = true;
-
+                // Jos lyönti on loppu niin vaihdetaan vuoro
+                if (!logiikka.getPallotLiikkuu() & !logiikka.getSaaLyoda()){
+                    pelaaja1.setTurn(!pelaaja1.getTurn());
+                    pelaaja2.setTurn(!pelaaja2.getTurn());
+                    logiikka.setSaaLyoda(true);
                 }
 
 
-                if (pallotLiikkuu) {
+                if (logiikka.getPallotLiikkuu()) {
                     timeThisFrame = System.currentTimeMillis() - startFrameTime;
                     if (timeThisFrame < dt){
                         try{
@@ -433,54 +292,6 @@ public class Biljardi extends Activity {
             liike.update(dt*0.001f, pallot);
 
 
-            // Check for ball colliding with a brick
-            //for(int i = 0; i < numBricks; i++){
-
-            //    if (bricks[i].getVisibility()){
-
-            //        if(RectF.intersects(bricks[i].getRect(), ball.getRect())) {
-            //            bricks[i].setInvisible();
-            //            ball.reverseYVelocity();
-            //            score = score + 10;
-
-            //            soundPool.play(explodeID, 1, 1, 0, 0, 1);
-            //        }
-            //    }
-
-            //}
-
-            // Check for ball colliding with paddle
-            //if(RectF.intersects(paddle.getRect(),ball.getRect())) {
-            //    ball.setRandomXVelocity();
-            //    ball.reverseYVelocity();
-            //    ball.clearObstacleY(paddle.getRect().top - 2);
-
-            //    soundPool.play(beep1ID, 1, 1, 0, 0, 1);
-            //}
-
-            // Bounce the ball back when it hits the bottom of screen
-            //if(ball.getRect().bottom > screenY){
-            //    ball.reverseYVelocity();
-            //    ball.clearObstacleY(screenY - 2);
-
-                // Lose a life
-             //   lives --;
-             //   soundPool.play(loseLifeID, 1, 1, 0, 0, 1);
-
-             //   if(lives == 0){
-             //       paused = true;
-             //       createBricksAndRestart();
-             //   }
-            //}
-
-
-
-            // Pause if cleared screen
-            //if(score == numBricks * 10){
-            //    paused = true;
-            //    createBricksAndRestart();
-            //}
-
         }
 
         // Piirrä päivitetty näkymä
@@ -495,7 +306,7 @@ public class Biljardi extends Activity {
                 canvas.drawColor(Color.argb(255, 0, 128, 0));
 
                 // Jos pallot ei liiku niin keppi piirretään
-                if (!pallotLiikkuu) {
+                if (!logiikka.getPallotLiikkuu()) {
                     //valkoinen keppi
                     paint.setColor(Color.argb(255, 255, 255, 255));
 
@@ -551,17 +362,7 @@ public class Biljardi extends Activity {
                 }
 
 
-                //canvas.drawRect(ball.getRect(), paint);
 
-                // Change the brush color for drawing
-                //paint.setColor(Color.argb(255,  249, 129, 0));
-
-                // Draw the bricks if visible
-                //for(int i = 0; i < numBricks; i++){
-                //    if(bricks[i].getVisibility()) {
-                //        canvas.drawRect(bricks[i].getRect(), paint);
-                //    }
-                //}
 
                 // Choose the brush color for drawing
                 paint.setColor(Color.argb(255, 255, 255, 255));
@@ -606,7 +407,7 @@ public class Biljardi extends Activity {
         // If SimpleGameEngine Activity is paused/stopped
         // shutdown our thread.
         public void pause() {
-            playing = false;
+            logiikka.setPlaying(false);
             try {
                 gameThread.join();
             } catch (InterruptedException e) {
@@ -618,7 +419,7 @@ public class Biljardi extends Activity {
         // If SimpleGameEngine Activity is started then
         // start our thread.
         public void resume() {
-            playing = true;
+            logiikka.setPlaying(true);
             gameThread = new Thread(this);
             gameThread.start();
         }
@@ -628,7 +429,7 @@ public class Biljardi extends Activity {
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
 
-            if (!pallotLiikkuu & saaLyoda) {
+            if (!logiikka.getPallotLiikkuu() & logiikka.getSaaLyoda()) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
                     // Player has touched the screen
@@ -648,8 +449,8 @@ public class Biljardi extends Activity {
                         //paused = false;
                         pallot.nollaaNopeudet();
                         keppi.iske(pallot.getLyontiPallo());
-                        pallotLiikkuu = true;
-                        saaLyoda = false;
+                        logiikka.setPallotLiikkuu(true);
+                        logiikka.setSaaLyoda(false);
                         lautadata.setTekstinPaikkaX(screenX);
                         lautadata.setTekstinPaikkaY(screenY);
                         break;

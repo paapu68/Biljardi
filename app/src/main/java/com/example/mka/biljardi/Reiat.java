@@ -97,7 +97,7 @@ public final class Reiat {
     /** Minkä värinen pallo meni ensimmäisenä reikään?
      * Vastaus on "enTieda" jos mitään ei mennyt reikään.
      */
-    public void ekanaReiassa(Pallot pallot){
+    public void setEkanaReiassa(Pallot pallot){
         if (this.ekanaReiassa.equals("enTieda")){
           for (Pallo p1 : pallot.getPallotArray()){
              if (!this.tarkastaPallo(p1)) {
