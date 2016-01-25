@@ -370,8 +370,12 @@ public class Biljardi extends Activity {
                 // Draw the score
                 paint.setTextSize(screenX / 20);
 
-
-
+                // tekstin väri sen mukaan mita yrittaa
+                if (pelaaja1.getTries().equals("punainen")){
+                    paint.setColor(Color.argb(255, 255, 0, 0));
+                } else if(pelaaja1.getTries().equals("sininen")){
+                    paint.setColor(Color.argb(255, 0, 0, 255));
+                }
                 String show1 = "";
                 String show2 = "";
                 if (pelaaja1.getTurn()){
@@ -382,6 +386,12 @@ public class Biljardi extends Activity {
                         paint);
                 if (pelaaja2.getTurn()){
                     show2 = "TURN:";
+                }
+                // tekstin väri sen mukaan mita yrittaa
+                if (pelaaja2.getTries().equals("punainen")){
+                    paint.setColor(Color.argb(255, 255, 0, 0));
+                } else if(pelaaja2.getTries().equals("sininen")){
+                    paint.setColor(Color.argb(255, 0, 0, 255));
                 }
                 canvas.drawText(show2 + " P: " + pelaaja2.getName() + " T: " +pelaaja2.getTryColor() + "S: "+
                         String.valueOf(pelaaja2.getScore()), lautadata.getTekstinPaikkaX(),lautadata.getTekstinPaikkaY() + screenX/10, paint);
