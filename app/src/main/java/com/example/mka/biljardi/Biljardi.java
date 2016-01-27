@@ -187,7 +187,7 @@ public class Biljardi extends Activity {
         int explodeID = -1;
 
         // Pisteet
-        int score = 0;
+        //int score = 0;
 
 
         // Kun kutsutaan (call new())  gameView:ssa niin tämä lähtee liikkeelle
@@ -267,7 +267,7 @@ public class Biljardi extends Activity {
             //Kepin alkupaikka lyöntipalloon
             keppi.reset(screenX, screenY);
             pallot.reset();
-            score = 0;
+            //score = 0;
         }
 
         @Override

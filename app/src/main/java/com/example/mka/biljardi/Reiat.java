@@ -103,7 +103,7 @@ public final class Reiat {
              if (!this.tarkastaPallo(p1)) {
                  // pallo on reiassa
                  this.ekanaReiassa = p1.getPalloVari();
-                 Log.i("REIASSA", String.valueOf(p1.getPalloVari()));
+                 Log.i("reika:REIASSA", String.valueOf(p1.getPalloVari()));
 
              }
           }
