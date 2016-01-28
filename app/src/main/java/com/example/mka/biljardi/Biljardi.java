@@ -299,9 +299,11 @@ public class Biljardi extends Activity {
                 //Log.i("DRAW", "OK");
 
                 // Tarkastetaan pelitilanne
-                logiikka.tarkastaTilanne(pelaajat, reiat, pallot, liike);
-                //Log.i("LOGIIKKA", "OK");
-
+                if (logiikka.getPallotLiikkuu()) {
+                    logiikka.tarkastaTilanne(pelaajat, reiat, pallot, liike);
+                    //Log.i("LOGIIKKA", "OK");
+                }
+                
                 // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
                 if (logiikka.getPallotLiikkuu()) {
                     keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());

@@ -30,7 +30,8 @@ public final class Reiat {
     private ArrayList<Float> reiatY = new ArrayList<Float>();
     private LautaData lautadata = new LautaData();
     private HashMap<String, Integer> mitaReiissa;
-    private String ekanaReiassa;
+    private String peliEkanaReiassa;
+    private String lyontiEkanaReiassa;
     boolean jotainReiissa;
     
     public Reiat(){
@@ -45,7 +46,8 @@ public final class Reiat {
         this.mitaReiissa.put("valkoinen", 0);
         this.mitaReiissa.put("punainen", 0);
         this.mitaReiissa.put("sininen", 0);
-        this.ekanaReiassa = "enTieda";
+        this.peliEkanaReiassa = "enTieda";
+        this.lyontiEkanaReiassa = "enTieda";
     }
     
     public void resetoiReiat(){
@@ -53,7 +55,7 @@ public final class Reiat {
         this.mitaReiissa.put("valkoinen", 0);
         this.mitaReiissa.put("punainen", 0);
         this.mitaReiissa.put("sininen", 0);
-        this.ekanaReiassa = "enTieda";
+        this.lyontiEkanaReiassa = "enTieda";
     }
     
     public void setReikaXY(float x, float y){
@@ -80,6 +82,8 @@ public final class Reiat {
                  int lkm = this.mitaReiissa.get(vari);
                  lkm = lkm + 1;
                  this.mitaReiissa.put(vari, lkm);
+                 Log.i("reika:REIASSA", String.valueOf(this.getMitaReiissa()));
+
              }
         }
     }
@@ -97,22 +101,37 @@ public final class Reiat {
     /** Minkä värinen pallo meni ensimmäisenä reikään?
      * Vastaus on "enTieda" jos mitään ei mennyt reikään.
      */
-    public void setEkanaReiassa(Pallot pallot){
-        if (this.ekanaReiassa.equals("enTieda")){
+    public void setLyontiEkanaReiassa(Pallot pallot){
+        if (this.lyontiEkanaReiassa.equals("enTieda")){
           for (Pallo p1 : pallot.getPallotArray()){
              if (!this.tarkastaPallo(p1)) {
                  // pallo on reiassa
-                 this.ekanaReiassa = p1.getPalloVari();
+                 this.lyontiEkanaReiassa = p1.getPalloVari();
                  Log.i("reika:REIASSA", String.valueOf(p1.getPalloVari()));
-
              }
           }
         }
-    }    
-    
-    public String getEkanaReiassa(){
-        return this.ekanaReiassa;
     }
+
+    public void setPeliEkanaReiassa(Pallot pallot){
+        if (this.peliEkanaReiassa.equals("enTieda")){
+            for (Pallo p1 : pallot.getPallotArray()){
+                if (!this.tarkastaPallo(p1)) {
+                    // pallo on reiassa
+                    this.peliEkanaReiassa = p1.getPalloVari();
+                    Log.i("reika:peli EKA REIASSA", String.valueOf(p1.getPalloVari()));
+                }
+            }
+        }
+    }
+
+    public String getLyontiEkanaReiassa(){
+        return this.lyontiEkanaReiassa;
+    }
+    public String getPeliEkanaReiassa(){
+        return this.peliEkanaReiassa;
+    }
+
     /**
      * Jos normipallo (eli ei valkoinen lyöntipallo, eikä musta)
      * on mennyt reikään niin se tapetaan pois
