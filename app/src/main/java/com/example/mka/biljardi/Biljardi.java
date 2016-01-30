@@ -303,7 +303,7 @@ public class Biljardi extends Activity {
                     logiikka.tarkastaTilanne(pelaajat, reiat, pallot, liike);
                     //Log.i("LOGIIKKA", "OK");
                 }
-                
+
                 // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
                 if (logiikka.getPallotLiikkuu()) {
                     keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
@@ -311,10 +311,9 @@ public class Biljardi extends Activity {
                 }
 
 
-                // Jos lyönti on loppu niin vaihdetaan vuoro
+                // Jos lyönti on ohi niin asetetaan että saa lyödä
                 if (!logiikka.getPallotLiikkuu() & !logiikka.getSaaLyoda()) {
-                    pelaaja1.setTurn(!pelaaja1.getTurn());
-                    pelaaja2.setTurn(!pelaaja2.getTurn());
+
                     logiikka.setSaaLyoda(true);
                 }
 
@@ -435,7 +434,7 @@ public class Biljardi extends Activity {
                 if (pelaaja1.getTurn()) {
                     show1 = "TURN:";
                 }
-                canvas.drawText(show1 + "P: " + pelaaja1.getName() + " T: " + pelaaja1.getTryColor() + "S: " +
+                canvas.drawText(show1 + "P: " + pelaaja1.getName() + " S: " +
                                 String.valueOf(pelaaja1.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY(),
                         paint);
                 if (pelaaja2.getTurn()) {
@@ -447,7 +446,7 @@ public class Biljardi extends Activity {
                 } else if (pelaaja2.getTries().equals("sininen")) {
                     paint.setColor(Color.argb(255, 0, 0, 255));
                 }
-                canvas.drawText(show2 + " P: " + pelaaja2.getName() + " T: " + pelaaja2.getTryColor() + "S: " +
+                canvas.drawText(show2 + " P: " + pelaaja2.getName() + " S: " +
                         String.valueOf(pelaaja2.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + screenX / 10, paint);
 
                 // Has the player cleared the screen?
