@@ -431,13 +431,13 @@ public class Biljardi extends Activity {
                 }
                 String show1 = "";
                 String show2 = "";
-                if (pelaaja1.getTurn()) {
+                if (pelaaja1.getTurn() & logiikka.getSaaLyoda()) {
                     show1 = "TURN:";
                 }
                 canvas.drawText(show1 + "P: " + pelaaja1.getName() + " S: " +
                                 String.valueOf(pelaaja1.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY(),
                         paint);
-                if (pelaaja2.getTurn()) {
+                if (pelaaja2.getTurn() & logiikka.getSaaLyoda()) {
                     show2 = "TURN:";
                 }
                 // tekstin väri sen mukaan mita yrittaa
