@@ -55,6 +55,9 @@ public final class Reiat {
         this.mitaReiissa.put("valkoinen", 0);
         this.mitaReiissa.put("punainen", 0);
         this.mitaReiissa.put("sininen", 0);
+    }
+
+    public void resetoiLyontiEkanaReiassa(){
         this.lyontiEkanaReiassa = "enTieda";
     }
     
@@ -102,24 +105,24 @@ public final class Reiat {
      * Vastaus on "enTieda" jos mitään ei mennyt reikään.
      */
     public void setLyontiEkanaReiassa(Pallot pallot){
-        if (this.lyontiEkanaReiassa.equals("enTieda")){
+        if (this.getLyontiEkanaReiassa().equals("enTieda")){
           for (Pallo p1 : pallot.getPallotArray()){
              if (!this.tarkastaPallo(p1)) {
                  // pallo on reiassa
                  this.lyontiEkanaReiassa = p1.getPalloVari();
-                 Log.i("reika:REIASSA", String.valueOf(p1.getPalloVari()));
+                 Log.i("reika1:REIASSA", String.valueOf(this.lyontiEkanaReiassa));
              }
           }
         }
     }
 
     public void setPeliEkanaReiassa(Pallot pallot){
-        if (this.peliEkanaReiassa.equals("enTieda")){
+        if (this.getPeliEkanaReiassa().equals("enTieda")){
             for (Pallo p1 : pallot.getPallotArray()){
                 if (!this.tarkastaPallo(p1)) {
                     // pallo on reiassa
                     this.peliEkanaReiassa = p1.getPalloVari();
-                    Log.i("reika:peli EKA REIASSA", String.valueOf(p1.getPalloVari()));
+                    Log.i("reika:peli EKA REIASSA", String.valueOf(this.peliEkanaReiassa));
                 }
             }
         }

@@ -12,6 +12,7 @@ public class Keppi {
     private float jousivakio;
     private float poikkeama_x, poikkeama_y;
     private float startX, startY, stopX, stopY;
+    private boolean piirra;
 
     public Keppi(int screenX, int screenY){
         this.jousivakio = 10f;
@@ -23,6 +24,15 @@ public class Keppi {
         //this.stopY = lautadata.alkuKeppiY *screenY;
         this.stopX = lautadata.valkoinenX * screenX;
         this.stopY = lautadata.valkoinenY * screenY;
+        this.piirra = false;
+    }
+
+    public void setPiirra(boolean piirra){
+        this.piirra = piirra;
+    }
+
+    public boolean getPiirra(){
+        return this.piirra;
     }
 
     // Isketään lyöntipalloa

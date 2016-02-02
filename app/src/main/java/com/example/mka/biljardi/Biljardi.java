@@ -225,8 +225,8 @@ public class Biljardi extends Activity {
             pelaaja1 = new Pelaaja("1", true);
             pelaaja2 = new Pelaaja("2", false);
 
-            pelaajat.add(pelaaja2);
             pelaajat.add(pelaaja1);
+            pelaajat.add(pelaaja2);
 
             // Load the sounds
 
@@ -276,8 +276,10 @@ public class Biljardi extends Activity {
             // Aika millisekunneissa startFrameTime :n
             dt = 40f;
             logiikka.setPallotLiikkuu(false);
+            lautadata.setTekstinPaikkaX(screenX);
+            lautadata.setTekstinPaikkaY(screenY);
 
-            while (playing) {
+            while (logiikka.getPlaying()) {
                 float startFrameTime = System.currentTimeMillis();
 
                 // Lasketaan fps tälle framelle
@@ -305,10 +307,10 @@ public class Biljardi extends Activity {
                 }
 
                 // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
-                if (logiikka.getPallotLiikkuu()) {
-                    keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-                    keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-                }
+                //if (logiikka.getPallotLiikkuu()) {
+                //    keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+                //    keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
+                //}
 
 
                 // Jos lyönti on ohi niin asetetaan että saa lyödä
@@ -328,15 +330,43 @@ public class Biljardi extends Activity {
                         }
                     }
                 }
+                if (!logiikka.getPlaying()){
+                    askFinish();
+                }
             }
 
+
         }
+
+        // Kysytään halutaanko pelata lisää ja näytetään tulos
+        public void askFinish() {
+            paint.setColor(Color.argb(255, 100, 150, 200));
+            String winner;
+            if (pelaaja1.getWin()) {
+                winner = "PLAYER " + pelaaja1.getName();
+            }
+            else {
+                winner = "PLAYER " + pelaaja2.getName();
+            }
+            canvas.drawText(" The winner is: " + winner, lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + 3 * screenX / 10, paint);
+            canvas.drawText(" For a new game tap the screen, to finish double tap", lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + 4 * screenX / 10, paint);
+            while (logiikka.getFinish().equals("enTieda")){
+
+            }
+            if (logiikka.getFinish().equals("true")){
+                finish();
+            }else{
+                logiikka.totalReset(pelaajat, reiat, pallot);
+            }
+
+
+        }
+
 
 
         // Kaikki päivitettävä tänne
         // Liike, törmäykset jne
         public void update() {
-
 
             //seinasta kimpoaminen
             seina.VaihdaLiikemaara(pallot);
@@ -369,7 +399,9 @@ public class Biljardi extends Activity {
                     // Piirrä keppi
                     paint.setStrokeWidth(4.0f);
                     keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-                    canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
+                    if (keppi.getPiirra()) {
+                        canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
+                    }
                 }
                 // Draw the paddle
                 //canvas.drawRect(paddle.getRect(), paint);
@@ -428,13 +460,15 @@ public class Biljardi extends Activity {
                     paint.setColor(Color.argb(255, 255, 0, 0));
                 } else if (pelaaja1.getTries().equals("sininen")) {
                     paint.setColor(Color.argb(255, 0, 0, 255));
+                } else if (pelaaja1.getTries().equals("musta")) {
+                    paint.setColor(Color.argb(255, 255, 255, 255));
                 }
                 String show1 = "";
                 String show2 = "";
                 if (pelaaja1.getTurn() & logiikka.getSaaLyoda()) {
                     show1 = "TURN:";
                 }
-                canvas.drawText(show1 + "P: " + pelaaja1.getName() + " S: " +
+                canvas.drawText(show1 + " P: " + pelaaja1.getName() + " S: " +
                                 String.valueOf(pelaaja1.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY(),
                         paint);
                 if (pelaaja2.getTurn() & logiikka.getSaaLyoda()) {
@@ -445,7 +479,10 @@ public class Biljardi extends Activity {
                     paint.setColor(Color.argb(255, 255, 0, 0));
                 } else if (pelaaja2.getTries().equals("sininen")) {
                     paint.setColor(Color.argb(255, 0, 0, 255));
+                } else if (pelaaja2.getTries().equals("musta")) {
+                    paint.setColor(Color.argb(255, 255, 255, 255));
                 }
+
                 canvas.drawText(show2 + " P: " + pelaaja2.getName() + " S: " +
                         String.valueOf(pelaaja2.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + screenX / 10, paint);
 
@@ -499,23 +536,36 @@ public class Biljardi extends Activity {
                     case MotionEvent.ACTION_DOWN:
 
                         //paused = false;
+                        keppi.setPiirra(true);
                         keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
-                        break;
+
 
 
                     case MotionEvent.ACTION_MOVE:
                         //paused = false;
+                        keppi.setPiirra(true);
                         keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
+                        //jos peli on päätynyt niin tällä aloitetaan uusi
+                        if (!logiikka.getPlaying()){
+                            logiikka.setPlaying(true);
+                            logiikka.setFinish("false");
+                        }
 
                         // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
                         //paused = false;
                         pallot.nollaaNopeudet();
                         keppi.iske(pallot.getLyontiPallo());
+                        keppi.setPiirra(false);
                         logiikka.setPallotLiikkuu(true);
                         logiikka.setSaaLyoda(false);
                         lautadata.setTekstinPaikkaX(screenX);
                         lautadata.setTekstinPaikkaY(screenY);
+                        //jos peli on päätynyt niin tällä vahvistetaan lopetus
+                        if (!logiikka.getPlaying()){
+                            logiikka.setFinish("true");
+                            logiikka.setPlaying(false);
+                        }
                         break;
                 }
             }
