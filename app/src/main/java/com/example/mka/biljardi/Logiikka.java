@@ -69,6 +69,14 @@ public class Logiikka {
     }
     public void setLyontiOhi(boolean lyontiOhi){ this.lyontiOhi = lyontiOhi;}
 
+    public boolean tarkastaLopeta(float y, float screeny){
+        if (y < screeny/5.0){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     public void tarkastaTilanne(ArrayList<Pelaaja> pelaajat, Reiat reiat, Pallot pallot, Liike liike){
         // asetetaan mikä väri meni ekana reikään
         if (reiat.getPeliEkanaReiassa().equals("enTieda")) {
@@ -114,11 +122,10 @@ public class Logiikka {
                 pelaajat.get(1).setScore(reiat.getMitaReiissa().get("punainen"));
             } else {
                 // koska kukaan ei vielä yritä mitään niin valkoinen meni ekana pussiin
-                // vaihdetaan vuoro ja aloitetaan alusta. Pallojen alkupaikat asetetaan pelin alkuun.
+                // vaihdetaan vuoro.
                 pallot.asetaPallojenAlkupaikat();
                 pallot.reset();
-                reiat.resetoiReiat();
-                reiat.resetoiLyontiEkanaReiassa();
+                reiat.resetoiPeliEkanaReiassa();
                 pelaajat.get(0).reset();
                 pelaajat.get(1).reset();
             }

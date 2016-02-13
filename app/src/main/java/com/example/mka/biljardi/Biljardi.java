@@ -134,7 +134,7 @@ public class Biljardi extends Activity {
         // boolean pallotLiikkuu = false;
 
         // Saako lyönnin suorittaa
-        // boolean saaLyoda = true;
+        // boolean saaLyoda = continue
 
         // Canvas Paint objektit
         Canvas canvas;
@@ -331,6 +331,7 @@ public class Biljardi extends Activity {
                     }
                 }
                 if (!logiikka.getPlaying()){
+                    Log.i("Kysytää", "Lopetusta");
                     askFinish();
                 }
             }
@@ -340,28 +341,36 @@ public class Biljardi extends Activity {
 
         // Kysytään halutaanko pelata lisää ja näytetään tulos
         public void askFinish() {
-            paint.setColor(Color.argb(255, 100, 150, 200));
-            String winner;
-            if (pelaaja1.getWin()) {
-                winner = "PLAYER " + pelaaja1.getName();
-            }
-            else {
-                winner = "PLAYER " + pelaaja2.getName();
-            }
-            canvas.drawText(" The winner is: " + winner, lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + 3 * screenX / 10, paint);
-            canvas.drawText(" For a new game tap the screen, to finish double tap", lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + 4 * screenX / 10, paint);
-            while (logiikka.getFinish().equals("enTieda")){
+            if (ourHolder.getSurface().isValid()) {
+                // Lock the canvas ready to draw
+                canvas = ourHolder.lockCanvas();
+                canvas.drawColor(Color.BLACK);
+                paint.setColor(Color.argb(255, 100, 150, 200));
+                String winner;
+                if (pelaaja1.getWin()) {
+                    winner = "PLAYER " + pelaaja1.getName();
+                } else {
+                    winner = "PLAYER " + pelaaja2.getName();
+                }
+                Log.i("Voittaja", winner);
+
+                canvas.drawText("CONTINUE", 0, screenY / 20, paint);
+                canvas.drawText(" The winner is: " + winner, 0, screenY/10, paint);
+                canvas.drawText("QUIT", 0, screenY/2, paint);
+                //ppiirretään kaikki
+                ourHolder.unlockCanvasAndPost(canvas);
+
+                while (logiikka.getFinish().equals("enTieda")) {
+
+                }
+                if (logiikka.getFinish().equals("true")) {
+                    finish();
+                } else {
+                    logiikka.totalReset(pelaajat, reiat, pallot);
+                }
 
             }
-            if (logiikka.getFinish().equals("true")){
-                finish();
-            }else{
-                logiikka.totalReset(pelaajat, reiat, pallot);
-            }
-
-
         }
-
 
 
         // Kaikki päivitettävä tänne
@@ -528,6 +537,23 @@ public class Biljardi extends Activity {
         // So we can override this method and detect screen touches.
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
+            boolean lopeta;
+            if (!logiikka.getPlaying()){
+                switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                    case MotionEvent.ACTION_DOWN:
+                        lopeta = logiikka.tarkastaLopeta(motionEvent.getY(), screenY);
+                        if (lopeta) {
+                            logiikka.setPlaying(false);
+                           logiikka.setFinish("true");
+                        } else {
+                            logiikka.setPlaying(true);
+                            logiikka.setFinish("false");
+                        }
+                    default:
+
+                }
+                return true;
+            }
 
             if (!logiikka.getPallotLiikkuu() & logiikka.getSaaLyoda()) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
@@ -538,18 +564,13 @@ public class Biljardi extends Activity {
                         //paused = false;
                         keppi.setPiirra(true);
                         keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
-
-
+                        break;
 
                     case MotionEvent.ACTION_MOVE:
                         //paused = false;
                         keppi.setPiirra(true);
                         keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
-                        //jos peli on päätynyt niin tällä aloitetaan uusi
-                        if (!logiikka.getPlaying()){
-                            logiikka.setPlaying(true);
-                            logiikka.setFinish("false");
-                        }
+                        break;
 
                         // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
@@ -561,12 +582,6 @@ public class Biljardi extends Activity {
                         logiikka.setSaaLyoda(false);
                         lautadata.setTekstinPaikkaX(screenX);
                         lautadata.setTekstinPaikkaY(screenY);
-                        //jos peli on päätynyt niin tällä vahvistetaan lopetus
-                        if (!logiikka.getPlaying()){
-                            logiikka.setFinish("true");
-                            logiikka.setPlaying(false);
-                        }
-                        break;
                 }
             }
             return true;

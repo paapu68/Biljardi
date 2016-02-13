@@ -60,7 +60,12 @@ public final class Reiat {
     public void resetoiLyontiEkanaReiassa(){
         this.lyontiEkanaReiassa = "enTieda";
     }
-    
+
+    public void resetoiPeliEkanaReiassa(){
+        this.peliEkanaReiassa = "enTieda";
+    }
+
+
     public void setReikaXY(float x, float y){
         this.reiatX.add(x);
         this.reiatY.add(y);
