@@ -71,9 +71,9 @@ public class Logiikka {
 
     public boolean tarkastaLopeta(float y, float screeny){
         if (y < screeny/5.0){
-            return true;
-        }else{
             return false;
+        }else{
+            return true;
         }
     }
 

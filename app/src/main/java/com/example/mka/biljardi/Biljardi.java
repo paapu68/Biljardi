@@ -2,13 +2,6 @@ package com.example.mka.biljardi;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,27 +11,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
-import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
-import android.view.ViewDebug;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-
-import com.example.mka.biljardi.LautaData;
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import static java.util.concurrent.ThreadLocalRandom.*;
 
 public class Biljardi extends Activity {
 
@@ -47,10 +34,7 @@ public class Biljardi extends Activity {
     // vastineet ruudun koskettamisiin
     BiljardiView BiljardiView;
     private LautaData lautadata = new LautaData();
-    /**
-     * ATTENTION: This was auto-generated to implement the App Indexing API.
-     * See https://g.co/AppIndexing/AndroidStudio for more information.
-     */
+
     private GoogleApiClient client;
 
     @Override
@@ -61,8 +45,7 @@ public class Biljardi extends Activity {
         BiljardiView = new BiljardiView(this);
         setContentView(BiljardiView);
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
@@ -70,17 +53,13 @@ public class Biljardi extends Activity {
     public void onStart() {
         super.onStart();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
+
         client.connect();
         Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Biljardi Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
+                Action.TYPE_VIEW,
+                "Biljardi Page",
+
                 Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.example.mka.biljardi/http/host/path")
         );
         AppIndex.AppIndexApi.start(client, viewAction);
@@ -90,16 +69,10 @@ public class Biljardi extends Activity {
     public void onStop() {
         super.onStop();
 
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
         Action viewAction = Action.newAction(
-                Action.TYPE_VIEW, // TODO: choose an action type.
-                "Biljardi Page", // TODO: Define a title for the content shown.
-                // TODO: If you have web page content that matches this app activity's content,
-                // make sure this auto-generated web page URL is correct.
-                // Otherwise, set the URL to null.
+                Action.TYPE_VIEW,
+                "Biljardi Page",
                 Uri.parse("http://host/path"),
-                // TODO: Make sure this auto-generated app deep link URI is correct.
                 Uri.parse("android-app://com.example.mka.biljardi/http/host/path")
         );
         AppIndex.AppIndexApi.end(client, viewAction);
@@ -126,15 +99,6 @@ public class Biljardi extends Activity {
 
         // Joukseeko peli vai ei?
         volatile boolean playing;
-
-        // Peli on pausella aluksi
-        // boolean paused = true;
-
-        // Liikkuuko pallot
-        // boolean pallotLiikkuu = false;
-
-        // Saako lyönnin suorittaa
-        // boolean saaLyoda = continue
 
         // Canvas Paint objektit
         Canvas canvas;
@@ -178,18 +142,6 @@ public class Biljardi extends Activity {
         ArrayList<Pelaaja> pelaajat = new ArrayList<Pelaaja>();
 
 
-        // Musaa FX
-        SoundPool soundPool;
-        int beep1ID = -1;
-        int beep2ID = -1;
-        int beep3ID = -1;
-        int loseLifeID = -1;
-        int explodeID = -1;
-
-        // Pisteet
-        //int score = 0;
-
-
         // Kun kutsutaan (call new())  gameView:ssa niin tämä lähtee liikkeelle
         public BiljardiView(Context context) {
             // Seuraava rivi pyytää
@@ -228,38 +180,6 @@ public class Biljardi extends Activity {
             pelaajat.add(pelaaja1);
             pelaajat.add(pelaaja2);
 
-            // Load the sounds
-
-            // Musiikki
-            soundPool = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
-
-            try {
-                // ".n luokan objektiti
-                AssetManager assetManager = context.getAssets();
-                AssetFileDescriptor descriptor;
-
-                descriptor = assetManager.openFd("beep1.ogg");
-                beep1ID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("beep2.ogg");
-                beep2ID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("beep3.ogg");
-                beep3ID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("loseLife.ogg");
-                loseLifeID = soundPool.load(descriptor, 0);
-
-                descriptor = assetManager.openFd("explode.ogg");
-                explodeID = soundPool.load(descriptor, 0);
-
-            } catch (IOException e) {
-                // Print an error message to the console
-                Log.e("error", "failed to load sound files");
-            }
-
-            //laitaAlkuasemaJaRestart();
-
         }
 
         public void laitaAlkuasemaJaRestart() {
@@ -267,7 +187,6 @@ public class Biljardi extends Activity {
             //Kepin alkupaikka lyöntipalloon
             keppi.reset(screenX, screenY);
             pallot.reset();
-            //score = 0;
         }
 
         @Override
@@ -281,9 +200,6 @@ public class Biljardi extends Activity {
 
             while (logiikka.getPlaying()) {
                 float startFrameTime = System.currentTimeMillis();
-
-                // Lasketaan fps tälle framelle
-                // Tätä voi käyttää animaatiossa
 
 
                 // Päivitä frame
@@ -306,12 +222,6 @@ public class Biljardi extends Activity {
                     //Log.i("LOGIIKKA", "OK");
                 }
 
-                // jos pallot liikkuu  niin kepin alku ja loppupaikka laitetaan valkoiseen palloon
-                //if (logiikka.getPallotLiikkuu()) {
-                //    keppi.update_alku(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-                //    keppi.update_loppu(screenX * pallot.getLyontiPallo().getPalloX(), screenY * pallot.getLyontiPallo().getPalloY());
-                //}
-
 
                 // Jos lyönti on ohi niin asetetaan että saa lyödä
                 if (!logiikka.getPallotLiikkuu() & !logiikka.getSaaLyoda()) {
@@ -331,7 +241,6 @@ public class Biljardi extends Activity {
                     }
                 }
                 if (!logiikka.getPlaying()){
-                    Log.i("Kysytää", "Lopetusta");
                     askFinish();
                 }
             }
@@ -342,7 +251,7 @@ public class Biljardi extends Activity {
         // Kysytään halutaanko pelata lisää ja näytetään tulos
         public void askFinish() {
             if (ourHolder.getSurface().isValid()) {
-                // Lock the canvas ready to draw
+                // lukitaan kanvaasi
                 canvas = ourHolder.lockCanvas();
                 canvas.drawColor(Color.BLACK);
                 paint.setColor(Color.argb(255, 100, 150, 200));
@@ -352,12 +261,12 @@ public class Biljardi extends Activity {
                 } else {
                     winner = "PLAYER " + pelaaja2.getName();
                 }
-                Log.i("Voittaja", winner);
+                //Log.i("Voittaja", winner);
 
                 canvas.drawText("CONTINUE", 0, screenY / 20, paint);
                 canvas.drawText(" The winner is: " + winner, 0, screenY/10, paint);
                 canvas.drawText("QUIT", 0, screenY/2, paint);
-                //ppiirretään kaikki
+                //piirretään kaikki
                 ourHolder.unlockCanvasAndPost(canvas);
 
                 while (logiikka.getFinish().equals("enTieda")) {
@@ -380,9 +289,6 @@ public class Biljardi extends Activity {
             //seinasta kimpoaminen
             seina.VaihdaLiikemaara(pallot);
 
-            // Move the paddle if required
-            //paddle.update(fps)
-            //
             // siirretään palloja ja päivitetään voimat ja nopeudet ja kiihtyvyydet
             liike.update(dt * 0.001f, pallot);
 
@@ -392,12 +298,12 @@ public class Biljardi extends Activity {
         // Piirrä päivitetty näkymä
         public void draw() {
             float mymin;
-            // Make sure our drawing surface is valid or we crash
+            // drawing surface OK?
             if (ourHolder.getSurface().isValid()) {
-                // Lock the canvas ready to draw
+                // Lukitaan kanvaasi
                 canvas = ourHolder.lockCanvas();
 
-                // Draw the background color
+                // background color
                 canvas.drawColor(Color.argb(255, 0, 128, 0));
 
                 // Jos pallot ei liiku niin keppi piirretään
@@ -412,8 +318,6 @@ public class Biljardi extends Activity {
                         canvas.drawLine(keppi.getStartX(), keppi.getStartY(), keppi.getStopX(), keppi.getStopY(), paint);
                     }
                 }
-                // Draw the paddle
-                //canvas.drawRect(paddle.getRect(), paint);
 
                 // Piirra reiat
                 mymin = Math.min(screenX, screenY);
@@ -447,21 +351,13 @@ public class Biljardi extends Activity {
                         canvas.drawCircle(pallo.getPalloX() * screenX, pallo.getPalloY() * screenY,
                                 mymin * lautadata.pallonSade, paint);
                     }
-                    //else { paint.setColor(Color.argb(255,255,255,255));
-                    //}
-                    //paint.setColor(pallo.getColor());
 
-
-                    //Log.i("pallovari", String.valueOf(pallo.getColor()));
-                    //Log.i("Omapallovari", pallo.getPalloVari());
-                    //Log.i("keppix",Float.toString(keppi.getStopX()));
                 }
 
-
-                // Choose the brush color for drawing
+                // VAlitaan vari
                 paint.setColor(Color.argb(255, 255, 255, 255));
 
-                // Draw the score
+                // valitaan tekstikoko
                 paint.setTextSize(screenX / 20);
 
                 // tekstin väri sen mukaan mita yrittaa
@@ -495,46 +391,32 @@ public class Biljardi extends Activity {
                 canvas.drawText(show2 + " P: " + pelaaja2.getName() + " S: " +
                         String.valueOf(pelaaja2.getScore()), lautadata.getTekstinPaikkaX(), lautadata.getTekstinPaikkaY() + screenX / 10, paint);
 
-                // Has the player cleared the screen?
-                //if(score == numBricks * 10){
-                //    paint.setTextSize(90);
-                //    canvas.drawText("YOU HAVE WON!", 10,screenY/2, paint);
-                //}
-
-                // Has the player lost?
-                //if(lives <= 0){
-                //    paint.setTextSize(90);
-                //    canvas.drawText("YOU HAVE LOST!", 10,screenY/2, paint);
-                //}
-
-                // Draw everything to the screen
+                // Piirra kaikki (nyt vasta)
                 ourHolder.unlockCanvasAndPost(canvas);
             }
 
         }
 
-        // If SimpleGameEngine Activity is paused/stopped
-        // shutdown our thread.
+        // JOs peli loppu niin suljataan säie
         public void pause() {
             playing = false;
             try {
                 gameThread.join();
             } catch (InterruptedException e) {
-                Log.e("Error:", "joining thread");
+                Log.e("Virhe", "saie");
             }
 
         }
 
-        // If SimpleGameEngine Activity is started then
-        // start our thread.
+        // jos aktiteetti alkaa niin aloitetaan säie
         public void resume() {
             playing = true;
             gameThread = new Thread(this);
             gameThread.start();
         }
 
-        // The SurfaceView class implements onTouchListener
-        // So we can override this method and detect screen touches.
+
+        // kuunnellaan kosketuksia näyttöön.
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
             boolean lopeta;
@@ -558,23 +440,18 @@ public class Biljardi extends Activity {
             if (!logiikka.getPallotLiikkuu() & logiikka.getSaaLyoda()) {
                 switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
 
-                    // Player has touched the screen
+                    // Kosketus
                     case MotionEvent.ACTION_DOWN:
-
-                        //paused = false;
                         keppi.setPiirra(true);
                         keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        //paused = false;
                         keppi.setPiirra(true);
                         keppi.update_loppu(motionEvent.getX(), motionEvent.getY());
                         break;
 
-                        // Player has removed finger from screen
                     case MotionEvent.ACTION_UP:
-                        //paused = false;
                         pallot.nollaaNopeudet();
                         keppi.iske(pallot.getLyontiPallo());
                         keppi.setPiirra(false);
@@ -582,32 +459,26 @@ public class Biljardi extends Activity {
                         logiikka.setSaaLyoda(false);
                         lautadata.setTekstinPaikkaX(screenX);
                         lautadata.setTekstinPaikkaY(screenY);
+                        break;
                 }
             }
             return true;
         }
 
     }
-    // This is the end of our BiljardiView inner class
 
-    // This method executes when the player starts the game
     @Override
     protected void onResume() {
         super.onResume();
 
-        // Tell the gameView resume method to execute
         BiljardiView.resume();
     }
 
-    // This method executes when the player quits the game
     @Override
     protected void onPause() {
         super.onPause();
-
-        // Tell the gameView pause method to execute
         BiljardiView.pause();
     }
 
 }
-// This is the end of the BiljardiGame class
 
