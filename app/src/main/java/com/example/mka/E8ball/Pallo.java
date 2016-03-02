@@ -4,10 +4,9 @@
  * and open the template in the editor.
  */
 
-package com.example.mka.biljardi;
+package com.example.mka.E8ball;
 
 import android.graphics.Color;
-import android.text.style.CharacterStyle;
 
 /**
  *  Sisältää pallon 2d paikan, 2d nopeuden, 2d kiihtyvyyden

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.mka.biljardi">
+    package="com.example.mka.E8ball">
 
     <application
         android:allowBackup="true"
@@ -9,7 +9,7 @@
         android:supportsRtl="true">
 
         <activity
-            android:name=".Biljardi"
+            android:name="com.example.mka.E8ball.Biljardi"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
             android:configChanges="orientation"
             android:screenOrientation="portrait"

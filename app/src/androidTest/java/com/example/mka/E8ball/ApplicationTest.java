@@ -1,4 +1,4 @@
-package com.example.mka.biljardi;
+package com.example.mka.E8ball;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

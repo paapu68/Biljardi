@@ -4,10 +4,8 @@
  * and open the template in the editor.
  */
 
-package com.example.mka.biljardi;
-import com.example.mka.biljardi.LautaData;
+package com.example.mka.E8ball;
 
-import java.sql.Array;
 import java.util.ArrayList;    // imports ArrayList
 /**
  * biljardipallojen jono ja jonoon liittyviä toimintoja.

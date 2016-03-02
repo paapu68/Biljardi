@@ -4,9 +4,7 @@
  * and open the template in the editor.
  */
 
-package com.example.mka.biljardi;
-
-import android.util.Log;
+package com.example.mka.E8ball;
 
 import java.util.ArrayList;
 

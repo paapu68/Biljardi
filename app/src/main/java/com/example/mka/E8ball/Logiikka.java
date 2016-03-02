@@ -1,9 +1,7 @@
 
-package com.example.mka.biljardi;
+package com.example.mka.E8ball;
 
 import android.util.Log;
-
-import com.example.mka.biljardi.LautaData;
 
 import java.util.ArrayList;
 

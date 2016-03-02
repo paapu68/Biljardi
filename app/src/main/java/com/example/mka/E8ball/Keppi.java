@@ -1,7 +1,6 @@
-package com.example.mka.biljardi;
+package com.example.mka.E8ball;
 
 import android.graphics.RectF;
-import android.util.Log;
 
 /**
  * Created by mka on 19.12.2015.
